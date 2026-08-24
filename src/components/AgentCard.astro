@@ -1,0 +1,55 @@
+---
+import { site } from "../data/site";
+
+interface Props {
+  sticky?: boolean;
+  compact?: boolean;
+}
+
+const { sticky = false, compact = false } = Astro.props;
+---
+
+<div class:list={["border border-line bg-white p-5", sticky && "lg:sticky lg:top-24"]}>
+  <div class="flex items-center gap-4">
+    <img
+      src="/images/team/genschmer.jpg"
+      alt={`Porträt von ${site.owner}`}
+      width="64"
+      height="64"
+      class="h-16 w-16 rounded-full border border-line object-cover"
+    />
+    <div>
+      <p class="font-display text-lg text-ink">{site.owner}</p>
+      <p class="text-sm text-slate">{site.ownerTitle}</p>
+    </div>
+  </div>
+
+  {!compact && (
+    <dl class="mt-4 space-y-1.5 text-sm">
+      <div class="flex justify-between gap-3">
+        <dt class="text-slate">Telefon</dt>
+        <dd><a href={`tel:${site.phone.replace(/\s/g, "")}`} class="font-medium text-ink hover:text-brass">{site.phoneDisplay}</a></dd>
+      </div>
+      <div class="flex justify-between gap-3">
+        <dt class="text-slate">E-Mail</dt>
+        <dd><a href={`mailto:${site.email}`} class="font-medium text-ink hover:text-brass">{site.email}</a></dd>
+      </div>
+      <div class="flex justify-between gap-3">
+        <dt class="text-slate">Büro</dt>
+        <dd class="text-right font-medium text-ink">{site.street}, {site.zip} {site.city}</dd>
+      </div>
+    </dl>
+  )}
+
+  <div class="mt-5 flex flex-col gap-2">
+    <a
+      href="#anfrage"
+      class="btn btn-sm btn-dark"
+    >
+      Direktanfrage senden
+    </a>
+    <a href={`tel:${site.phone.replace(/\s/g, "")}`} class="btn btn-sm btn-outline-ink">
+      {site.phoneDisplay}
+    </a>
+  </div>
+</div>

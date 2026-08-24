@@ -1,0 +1,38 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import PropertyGrid from "../../components/PropertyGrid.astro";
+import FilterBar from "../../components/FilterBar.astro";
+import BewertungBand from "../../components/BewertungBand.astro";
+import { site } from "../../data/site";
+
+const allListings = (await getCollection("immobilien")).sort((a, b) => {
+  const soldA = a.data.status === "verkauft" || a.data.status === "vermietet";
+  const soldB = b.data.status === "verkauft" || b.data.status === "vermietet";
+  if (soldA !== soldB) return soldA ? 1 : -1;
+  return Number(b.data.featured) - Number(a.data.featured);
+});
+---
+
+<Layout
+  title={`Immobilienangebote in Montabaur & Westerwald | ${site.name}`}
+  description={`Aktuelle Häuser, Wohnungen, Grundstücke und Gewerbeimmobilien zum Kauf und zur Miete in Montabaur, im Westerwald und im Raum Limburg/Koblenz — vermittelt von ${site.name}.`}
+>
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <p class="eyebrow">Immobilienangebot</p>
+    <h1 class="mt-1 font-display text-4xl text-ink">Aktuelle Immobilien</h1>
+    <p class="mt-3 max-w-2xl text-slate">
+      Eine Auswahl unserer aktuellen Vermittlungsobjekte in Montabaur, im Westerwald
+      und im Raum Limburg/Koblenz. Viele Objekte werden ausschließlich über unsere Käuferkartei
+      angeboten und erscheinen nie in dieser Liste — hinterlegen Sie dafür gerne
+      einen <a href="/suchauftrag/" class="underline decoration-brass underline-offset-2 hover:text-brass-dark">Suchauftrag</a>.
+    </p>
+
+    <div class="mt-8">
+      {allListings.length > 0 && <FilterBar />}
+      <PropertyGrid entries={allListings} emptyMessage="Unsere Online-Inserate werden gerade für Sie aufbereitet! Bitte schauen Sie in Kürze noch einmal vorbei." />
+    </div>
+  </section>
+
+  <BewertungBand />
+</Layout>

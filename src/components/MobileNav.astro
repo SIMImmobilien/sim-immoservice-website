@@ -1,0 +1,82 @@
+---
+import { site } from "../data/site";
+
+const navLinks = [
+  { href: "/", label: "Start" },
+  { href: "/immobilien/", label: "Immobilien" },
+  { href: "/leistungen/", label: "Leistungen" },
+  { href: "/spezialisierungen/", label: "Spezialisierungen" },
+  { href: "/wertermittlung/", label: "Wertermittlung" },
+  { href: "/suchauftrag/", label: "Gesuche" },
+  { href: "/ueber-uns/", label: "Über uns" },
+  { href: "/kontakt/", label: "Kontakt" },
+];
+---
+
+<div
+  id="mobile-nav"
+  class="fixed inset-0 z-50 hidden overflow-y-auto bg-ink/97 backdrop-blur"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Hauptnavigation"
+>
+  <div class="flex items-center justify-between px-6 py-5">
+    <span class="flex items-center gap-3">
+      <span class="flex h-9 w-9 items-center justify-center border border-brass pb-0.5 font-display text-lg font-semibold leading-none text-brass" aria-hidden="true">S</span>
+      <span class="flex flex-col leading-tight">
+        <span class="font-display text-sm font-semibold text-white">SIM Immobilien Service GmbH</span>
+        <span class="text-[8px] uppercase tracking-[0.3em] text-white/60">Montabaur · Westerwald</span>
+      </span>
+    </span>
+    <button
+      id="mobile-nav-close"
+      type="button"
+      class="p-2 text-white transition hover:text-brass"
+      aria-label="Menü schließen"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M18 6 6 18M6 6l12 12" stroke-linecap="round" />
+      </svg>
+    </button>
+  </div>
+  <nav class="flex flex-col gap-1 px-6 py-4">
+    {navLinks.map((link) => (
+      <a
+        href={link.href}
+        class="border-b border-white/10 py-4 font-display text-2xl text-white transition hover:text-brass"
+      >
+        {link.label}
+      </a>
+    ))}
+  </nav>
+  <div class="mt-4 flex flex-col gap-3 px-6 pb-10">
+    <a href={`tel:${site.phone.replace(/\s/g, "")}`} class="btn btn-outline-light">
+      {site.phoneHeader}
+    </a>
+    <a href="/wertermittlung/#bewertung" class="btn btn-brass">
+      Immobilie kostenlos bewerten
+    </a>
+  </div>
+</div>
+
+<script>
+  const nav = document.getElementById("mobile-nav");
+  const openBtn = document.getElementById("mobile-nav-open");
+  const closeBtn = document.getElementById("mobile-nav-close");
+
+  function open() {
+    nav?.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
+  function close() {
+    nav?.classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
+  openBtn?.addEventListener("click", open);
+  closeBtn?.addEventListener("click", close);
+  nav?.querySelectorAll("a").forEach((a) => a.addEventListener("click", close));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+</script>

@@ -1,0 +1,130 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../../layouts/Layout.astro";
+import Gallery from "../../../components/Gallery.astro";
+import ObjektdatenTable from "../../../components/ObjektdatenTable.astro";
+import EnergyScale from "../../../components/EnergyScale.astro";
+import AgentCard from "../../../components/AgentCard.astro";
+import MapsConsent from "../../../components/MapsConsent.astro";
+import InquiryForm from "../../../components/InquiryForm.astro";
+import StatusBadge from "../../../components/StatusBadge.astro";
+import { objektartLabels, vermarktungsartLabels, priceLabel } from "../../../lib/format";
+import { site } from "../../../data/site";
+
+export async function getStaticPaths() {
+  const listings = await getCollection("immobilien");
+  return listings.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "RealEstateListing",
+    name: d.title,
+    description: `${objektartLabels[d.objektart]} ${vermarktungsartLabels[d.vermarktungsart]} in ${d.plz} ${d.ort}`,
+    url: `${site.siteUrl}/immobilien/${entry.id}/`,
+    image: d.bilder.map((b) => b.src),
+    offers: {
+      "@type": "Offer",
+      price: d.preisAufAnfrage ? undefined : d.preis,
+      priceCurrency: "EUR",
+      availability: d.status === "aktiv" ? "https://schema.org/InStock" : "https://schema.org/SoldOut",
+    },
+    address: {
+      "@type": "PostalAddress",
+      postalCode: d.plz,
+      addressLocality: d.ort,
+      addressCountry: "DE",
+    },
+  },
+];
+---
+
+<Layout
+  title={`${d.title} — ${d.plz} ${d.ort} | ${site.name}`}
+  description={`${objektartLabels[d.objektart]} ${vermarktungsartLabels[d.vermarktungsart]} in ${d.plz} ${d.ort}. ${priceLabel(d.vermarktungsart, d.preis, d.preisAufAnfrage)}. Objekt-ID ${d.objektId}.`}
+  image={d.bilder[0]?.src}
+  jsonLd={jsonLd}
+>
+  <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+    <nav class="flex flex-wrap items-center gap-4 text-sm text-slate">
+      <a href="/immobilien/" class="hover:text-brass-dark">← Zur Übersicht</a>
+      <a href="#anfrage" class="hover:text-brass-dark">Direktanfrage</a>
+      <button type="button" onclick="window.print()" class="hover:text-brass-dark">Druckansicht (PDF)</button>
+    </nav>
+
+    <div class="mt-4 flex flex-wrap items-center gap-3">
+      <StatusBadge status={d.status} />
+      <span class="text-xs text-slate">Objekt-ID {d.objektId}</span>
+    </div>
+
+    <h1 class="mt-2 font-display text-3xl text-ink sm:text-4xl">{d.title}</h1>
+    <p class="mt-1 text-slate">{d.plz} {d.ort} · {objektartLabels[d.objektart]} {vermarktungsartLabels[d.vermarktungsart]}</p>
+
+    <div class="mt-8">
+      <Gallery bilder={d.bilder} />
+    </div>
+
+    <div class="mt-10 grid gap-10 lg:grid-cols-[1fr_340px]">
+      <div class="space-y-10">
+        <div class="grid gap-6 xl:grid-cols-2">
+          <ObjektdatenTable entry={entry} />
+          {d.energieausweis && <EnergyScale {...d.energieausweis} />}
+        </div>
+
+        <article class="prose-content max-w-none">
+          <h2 class="font-display text-2xl text-ink">Beschreibung</h2>
+          <div class="mt-3 space-y-4 text-sm leading-relaxed text-slate [&_p]:leading-relaxed [&_strong]:text-ink">
+            <Content />
+          </div>
+        </article>
+
+        {d.ausstattung.length > 0 && (
+          <div>
+            <h2 class="font-display text-2xl text-ink">Ausstattung</h2>
+            <ul class="mt-3 grid gap-2 sm:grid-cols-2">
+              {d.ausstattung.map((item) => (
+                <li class="flex items-start gap-2 text-sm text-slate">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mt-0.5 shrink-0 text-brass"><path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {d.lage && (
+          <div>
+            <h2 class="font-display text-2xl text-ink">Lage</h2>
+            <p class="mt-3 text-sm leading-relaxed text-slate">{d.lage}</p>
+          </div>
+        )}
+
+        <div>
+          <h2 class="font-display text-2xl text-ink">Standort</h2>
+          <div class="mt-3">
+            <MapsConsent ort={d.ort} plz={d.plz} lat={d.lat} lng={d.lng} />
+          </div>
+        </div>
+
+        <InquiryForm objektTitel={d.title} objektId={d.objektId} />
+
+        <p class="border-t border-line pt-6 text-xs text-slate">
+          Angaben laut Auskunft Dritter, ohne Gewähr. Änderungen, Zwischenverkauf
+          bzw. Zwischenvermietung und Irrtum vorbehalten. Objekt-ID {d.objektId}.
+        </p>
+      </div>
+
+      <div>
+        <AgentCard sticky />
+      </div>
+    </div>
+  </div>
+</Layout>

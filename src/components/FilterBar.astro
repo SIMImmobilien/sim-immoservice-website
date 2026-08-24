@@ -1,0 +1,117 @@
+---
+---
+
+<form id="filter-bar" class="mb-8 grid gap-3 border border-line bg-white p-4 sm:grid-cols-2 lg:grid-cols-5 lg:p-5">
+  <div class="flex flex-col gap-1">
+    <label for="f-vermarktungsart" class="text-xs font-medium text-slate">Kaufen / Mieten</label>
+    <select id="f-vermarktungsart" name="vermarktungsart" class="rounded-lg border border-line bg-white px-3 py-2 text-sm text-ink">
+      <option value="">Alle</option>
+      <option value="kauf">Kaufen</option>
+      <option value="miete">Mieten</option>
+    </select>
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <label for="f-objektart" class="text-xs font-medium text-slate">Objektart</label>
+    <select id="f-objektart" name="objektart" class="rounded-lg border border-line bg-white px-3 py-2 text-sm text-ink">
+      <option value="">Alle</option>
+      <option value="haus">Haus</option>
+      <option value="wohnung">Wohnung</option>
+      <option value="grundstueck">Grundstück</option>
+      <option value="gewerbe">Gewerbe</option>
+      <option value="sonstige">Renditeobjekt</option>
+    </select>
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <label for="f-ort" class="text-xs font-medium text-slate">Ort</label>
+    <input
+      id="f-ort"
+      name="ort"
+      type="text"
+      placeholder="z. B. Montabaur"
+      class="rounded-lg border border-line bg-white px-3 py-2 text-sm text-ink placeholder:text-slate/60"
+    />
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <label for="f-preis-max" class="text-xs font-medium text-slate">Preis bis</label>
+    <select id="f-preis-max" name="preisMax" class="rounded-lg border border-line bg-white px-3 py-2 text-sm text-ink">
+      <option value="">Ohne Limit</option>
+      <option value="1500">1.500 €</option>
+      <option value="300000">300.000 €</option>
+      <option value="500000">500.000 €</option>
+      <option value="800000">800.000 €</option>
+      <option value="1500000">1.500.000 €</option>
+    </select>
+  </div>
+
+  <div class="flex items-end">
+    <button
+      type="button"
+      id="filter-reset"
+      class="w-full rounded-lg border border-line px-3 py-2 text-sm font-medium text-slate transition hover:border-ink hover:text-ink"
+    >
+      Filter zurücksetzen
+    </button>
+  </div>
+</form>
+
+<script>
+  const form = document.getElementById("filter-bar") as HTMLFormElement | null;
+  const grid = document.getElementById("property-grid");
+  const empty = document.getElementById("property-grid-empty");
+  if (!form || !grid) {
+    // no listing grid on this page (e.g. filter bar unused)
+  } else {
+    const cards = Array.from(grid.querySelectorAll<HTMLAnchorElement>("[data-objektart]"));
+
+    function applyFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      (form!.elements.namedItem("vermarktungsart") as HTMLSelectElement).value = params.get("vermarktungsart") ?? "";
+      (form!.elements.namedItem("objektart") as HTMLSelectElement).value = params.get("objektart") ?? "";
+      (form!.elements.namedItem("ort") as HTMLInputElement).value = params.get("ort") ?? "";
+      (form!.elements.namedItem("preisMax") as HTMLSelectElement).value = params.get("preisMax") ?? "";
+      filter();
+    }
+
+    function filter() {
+      const data = new FormData(form!);
+      const vermarktungsart = String(data.get("vermarktungsart") ?? "");
+      const objektart = String(data.get("objektart") ?? "");
+      const ort = String(data.get("ort") ?? "").trim().toLowerCase();
+      const preisMax = String(data.get("preisMax") ?? "");
+
+      let visibleCount = 0;
+      for (const card of cards) {
+        const matchesVermarktungsart = !vermarktungsart || card.dataset.vermarktungsart === vermarktungsart;
+        const matchesObjektart = !objektart || card.dataset.objektart === objektart;
+        const matchesOrt = !ort || card.dataset.ort?.includes(ort);
+        const matchesPreis = !preisMax || Number(card.dataset.preis) <= Number(preisMax);
+        const visible = matchesVermarktungsart && matchesObjektart && matchesOrt && matchesPreis;
+        card.classList.toggle("hidden", !visible);
+        if (visible) visibleCount++;
+      }
+
+      grid!.classList.toggle("hidden", visibleCount === 0);
+      empty?.classList.toggle("hidden", visibleCount !== 0);
+
+      const params = new URLSearchParams();
+      if (vermarktungsart) params.set("vermarktungsart", vermarktungsart);
+      if (objektart) params.set("objektart", objektart);
+      if (ort) params.set("ort", ort);
+      if (preisMax) params.set("preisMax", preisMax);
+      const query = params.toString();
+      history.replaceState(null, "", query ? `?${query}` : window.location.pathname);
+    }
+
+    form.addEventListener("input", filter);
+    form.addEventListener("change", filter);
+    document.getElementById("filter-reset")?.addEventListener("click", () => {
+      form!.reset();
+      filter();
+    });
+
+    applyFromURL();
+  }
+</script>

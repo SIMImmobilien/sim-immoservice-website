@@ -1,0 +1,256 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import BewertungBand from "../components/BewertungBand.astro";
+import PropertyGrid from "../components/PropertyGrid.astro";
+import GesucheBoard from "../components/GesucheBoard.astro";
+import gesucheData from "../data/gesuche.json";
+import CTABand from "../components/CTABand.astro";
+import { site } from "../data/site";
+
+const allListings = await getCollection("immobilien");
+
+const aktiv = allListings
+  .filter((e) => e.data.status === "aktiv" || e.data.status === "reserviert")
+  .sort((a, b) => Number(b.data.featured) - Number(a.data.featured));
+
+const featuredListings = aktiv.slice(0, 6);
+const gesucheCount = Object.values(gesucheData).reduce((sum, arr) => sum + arr.length, 0);
+
+const storyPoints = [
+  "Persönlicher Ansprechpartner statt Hotline",
+  "Ehrliche Marktwerte statt Preisversprechen",
+  "Betreuung auch nach Vertragsabschluss",
+  "Regionale Marktkenntnis seit vielen Jahren",
+];
+
+const werte = [
+  {
+    title: "Menschlich",
+    text: "Wir arbeiten mit Menschen, nicht mit Objektnummern.",
+    icon: "M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9Z",
+  },
+  {
+    title: "Diskret",
+    text: "Sensible Themen behandeln wir mit der nötigen Ruhe und Verschwiegenheit.",
+    icon: "M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6l-8-4Zm-2 10 2 2 3-4",
+  },
+  {
+    title: "Regional",
+    text: "Marktkenntnis, die aus jahrelanger Präsenz vor Ort wächst.",
+    icon: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Zm4-14-2.5 6L8 16.5 10.5 10 16 8Z",
+  },
+  {
+    title: "Ganzheitlich",
+    text: "Vom Verkauf bis zur laufenden Verwaltung — alles aus einer Hand.",
+    icon: "M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16M4 21h16M8 7h2m4 0h2M8 11h2m4 0h2M8 15h2m4 0h2",
+  },
+];
+
+const bereiche = [
+  {
+    title: "Immobilienmakler",
+    text: "Verkauf und Vermietung mit fundierter Bewertung, professionellem Exposé und Begleitung bis zum Notartermin.",
+    items: ["Marktwertermittlung", "Vermarktungskonzept", "Drohnenaufnahmen", "Käuferqualifizierung"],
+    href: "/verkaufen/",
+    icon: "M3 10.5 12 4l9 6.5M5 9.5V20h5v-5h4v5h5V9.5",
+  },
+  {
+    title: "Hausverwaltung",
+    text: "WEG-, Miet- und Sondereigentumsverwaltung mit einem Ansprechpartner für Eigentümer und Mieter.",
+    items: ["WEG-Verwaltung", "Mietverwaltung", "Instandhaltung", "Betriebskosten"],
+    href: "/leistungen/",
+    icon: "M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16M4 21h16M8 7h2m4 0h2M8 11h2m4 0h2M8 15h2m4 0h2",
+  },
+  {
+    title: "Objektservice",
+    text: "Alles, was Ihr Objekt in Form hält — von der Grünanlage bis zum Winterdienst, koordiniert aus einer Hand.",
+    items: ["Hausmeisterservice", "Grünpflege", "Winterdienst", "Kleinreparaturen"],
+    href: "/leistungen/",
+    icon: "M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-2.4 2.6-2.6Z",
+  },
+];
+
+const regionOrte = [
+  "Montabaur",
+  "Westerwald",
+  "Altenkirchen",
+  "Koblenz",
+  "Limburg",
+  "Neuwied",
+  "Hachenburg",
+  "Bad Marienberg",
+  "Wirges",
+  "Ransbach-Baumbach",
+  "Höhr-Grenzhausen",
+  "Dernbach",
+  "Wallmerod",
+  "Selters",
+];
+---
+
+<Layout
+  title={`Immobilienmakler Montabaur & Westerwald | ${site.name}`}
+  description={`${site.name} ist Immobilienmakler in Montabaur und vermittelt Häuser, Wohnungen, Grundstücke und Gewerbeimmobilien im Westerwald, Rhein-Lahn-Kreis und Raum Limburg/Koblenz.`}
+>
+  <Hero />
+
+  <BewertungBand />
+
+  <section class="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+    <div class="grid gap-10 lg:grid-cols-[180px_1fr]">
+      <p class="eyebrow pt-3 lg:border-t lg:border-brass lg:pt-4">Über SIM Immobilien</p>
+      <div>
+        <h2 class="max-w-3xl font-display text-3xl leading-[1.15] text-ink sm:text-4xl">
+          Jede Immobilie erzählt eine Geschichte.
+          <em class="font-normal text-slate">Wir nehmen uns die Zeit, sie zu verstehen.</em>
+        </h2>
+        <p class="mt-5 max-w-xl text-slate leading-relaxed">
+          Hinter jeder Immobilie steht eine Entscheidung: eine Erbschaft, ein
+          Umzug, eine neue Lebensphase. Wir begleiten Eigentümer im Westerwald
+          mit Ruhe, Diskretion und einem klaren Blick auf das, was wirklich
+          zählt.
+        </p>
+        <ul class="mt-8 grid gap-x-10 sm:grid-cols-2">
+          {storyPoints.map((point) => (
+            <li class="flex items-baseline gap-3 border-b border-line py-3.5 text-sm text-ink">
+              <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-brass" aria-hidden="true"></span>
+              {point}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-white py-16">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <p class="eyebrow">Werte</p>
+      <h2 class="mt-3 font-display text-3xl text-ink sm:text-4xl">Was uns anders macht.</h2>
+      <div class="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        {werte.map((w) => (
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" class="text-brass" aria-hidden="true"><path d={w.icon} stroke-linecap="round" stroke-linejoin="round" /></svg>
+            <h3 class="mt-4 font-display text-xl text-ink">{w.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-slate">{w.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <p class="eyebrow">Leistungen</p>
+        <h2 class="mt-3 max-w-md font-display text-3xl leading-tight text-ink sm:text-4xl">
+          Drei Bereiche. Ein Ansprechpartner.
+        </h2>
+      </div>
+      <a href="/leistungen/" class="inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-brass-dark">
+        Alle Leistungen ansehen <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+    <div class="mt-10 grid divide-y divide-line border border-line bg-white md:grid-cols-3 md:divide-x md:divide-y-0">
+      {bereiche.map((b) => (
+        <div class="flex flex-col p-8">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" class="text-brass" aria-hidden="true"><path d={b.icon} stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <h3 class="mt-5 font-display text-2xl text-ink">{b.title}</h3>
+          <p class="mt-3 text-sm leading-relaxed text-slate">{b.text}</p>
+          <ul class="mt-6 flex-1 space-y-2.5">
+            {b.items.map((item) => (
+              <li class="flex items-center gap-3 text-sm text-ink">
+                <span class="h-px w-4 bg-brass" aria-hidden="true"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <a href={b.href} class="mt-8 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-ink hover:text-brass-dark">
+            Mehr erfahren <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="border-t border-line bg-white py-16">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="eyebrow">Aktuelle Immobilien</p>
+          <h2 class="mt-3 font-display text-3xl text-ink sm:text-4xl">Ausgewählte Angebote</h2>
+        </div>
+        <a href="/immobilien/" class="btn btn-sm btn-outline-ink">
+          Alle Immobilien ansehen
+        </a>
+      </div>
+      <PropertyGrid entries={featuredListings} emptyMessage="Unsere Online-Inserate werden gerade für Sie aufbereitet! Bitte schauen Sie in Kürze noch einmal vorbei." />
+    </div>
+  </section>
+
+  {gesucheCount > 0 && (
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <div class="bg-brass-soft/40 p-6 sm:p-10">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="eyebrow">Kundengesuche</p>
+          <h2 class="mt-1 font-display text-3xl text-ink">Diese Käufer warten bereits</h2>
+          <p class="mt-2 max-w-xl text-sm text-slate">
+            Ein Auszug aus unserer aktuellen Suchkartei — anonymisiert. Bevor ein
+            Objekt öffentlich inseriert wird, prüfen wir zuerst passende Gesuche.
+          </p>
+        </div>
+        <a href="/suchauftrag/" class="btn btn-sm btn-dark">
+          Alle Gesuche ansehen
+        </a>
+      </div>
+      <div class="mt-6">
+        <GesucheBoard teaser />
+      </div>
+      <p class="mt-6 text-sm text-ink">
+        Sie besitzen eine passende Immobilie?
+        <a href="/wertermittlung/" class="font-medium underline decoration-brass underline-offset-2 hover:text-brass-dark">
+          Jetzt kostenlos bewerten lassen →
+        </a>
+      </p>
+    </div>
+  </section>
+  )}
+
+  <section class="bg-ink py-20 text-white">
+    <div class="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-[1fr_1.2fr] lg:items-center">
+      <div>
+        <p class="eyebrow text-brass">Region</p>
+        <h2 class="mt-3 font-display text-3xl leading-[1.15] sm:text-4xl">
+          Zu Hause zwischen Westerwald, Rhein und Lahn.
+        </h2>
+        <p class="mt-4 max-w-md text-sm leading-relaxed text-white/70">
+          Wir kennen die Straßen, die Nachbarschaften und die Menschen. Unsere
+          regionale Verbundenheit ist keine Marketingfloskel — sie ist Grundlage
+          unserer Arbeit.
+        </p>
+        <p class="mt-6 flex items-center gap-2 text-sm text-white/80">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="text-brass" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          {site.shortName} · {site.city}, Westerwaldkreis
+        </p>
+      </div>
+      <ul class="grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
+        {regionOrte.map((ort) => (
+          <li class="flex items-center gap-3 border-b border-white/15 py-3.5 text-sm text-white/85">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="shrink-0 text-brass" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m16 8-2.5 6L8 16.5 10.5 10 16 8Z"/></svg>
+            {ort}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CTABand
+    eyebrow="Kostenlose Erstberatung"
+    title="Sprechen Sie mit einem Menschen, nicht mit einer Hotline."
+    text="Ob Bewertung, Verkauf, Vermietung oder Verwaltung — wir hören zu und entwickeln eine Lösung, die zu Ihrer Immobilie und Ihrer Lebenssituation passt."
+    ctaLabel="Termin vereinbaren"
+    ctaHref="/kontakt/"
+  />
+</Layout>

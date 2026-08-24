@@ -1,0 +1,135 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SectionHead from "../../components/SectionHead.astro";
+import CTABand from "../../components/CTABand.astro";
+import { site } from "../../data/site";
+
+const bereiche = [
+  {
+    nr: "Bereich 01",
+    title: "Immobilienmakler",
+    text: "Wir verkaufen und vermieten Immobilien mit Anspruch — fundiert bewertet, hochwertig präsentiert und individuell begleitet.",
+    href: "/verkaufen/",
+    icon: "M3 10.5 12 4l9 6.5M5 9.5V20h5v-5h4v5h5V9.5",
+    items: [
+      "Verkauf von Wohnimmobilien",
+      "Vermietung",
+      "Immobilienbewertung",
+      "Marktwertermittlung",
+      "Individuelle Vermarktungskonzepte",
+      "Professionelle Exposés",
+      "Drohnen- und Innenaufnahmen",
+      "Grundrissaufbereitung",
+      "Käuferqualifizierung",
+      "Begleitung bis zum Notartermin",
+    ],
+  },
+  {
+    nr: "Bereich 02",
+    title: "Hausverwaltung",
+    text: "WEG-, Miet- und Sondereigentumsverwaltung mit klaren Prozessen und einem festen Ansprechpartner für Eigentümer und Mieter.",
+    href: "/kontakt/",
+    icon: "M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16M4 21h16M8 7h2m4 0h2M8 11h2m4 0h2M8 15h2m4 0h2",
+    items: [
+      "WEG-Verwaltung",
+      "Mietverwaltung",
+      "Sondereigentumsverwaltung",
+      "Eigentümerbetreuung",
+      "Instandhaltungsmanagement",
+      "Betriebskostenmanagement",
+      "Vermietungsservice",
+      "Ansprechpartner für Eigentümer und Mieter",
+    ],
+  },
+  {
+    nr: "Bereich 03",
+    title: "Objektservice",
+    text: "Der praktische Teil rund um Ihre Immobilie — zuverlässig koordiniert und regional ausgeführt.",
+    href: "/kontakt/",
+    icon: "M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-2.4 2.6-2.6Z",
+    items: [
+      "Objektpflege",
+      "Grünanlagenpflege",
+      "Hausmeisterservice",
+      "Winterdienst",
+      "Kleinreparaturen",
+      "Treppenhausreinigung",
+      "Außenanlagenpflege",
+    ],
+  },
+];
+---
+
+<Layout
+  title={`Leistungen — Verkauf, Verwaltung & Objektservice | ${site.name}`}
+  description={`Immobilienmakler, Hausverwaltung und Objektservice aus einer Hand in Montabaur und dem Westerwald — persönlich betreut von ${site.name}.`}
+>
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <SectionHead eyebrow="Leistungen">
+      <Fragment slot="title">
+        Vom ersten Gespräch bis <em class="font-normal text-slate">weit über den Abschluss hinaus.</em>
+      </Fragment>
+      <Fragment slot="text">
+        Wir bündeln unter einem Dach, was Eigentümer sonst mühsam koordinieren
+        müssen: Verkauf, Vermietung, Verwaltung und Objektservice. Persönlich
+        betreut, regional verankert.
+      </Fragment>
+    </SectionHead>
+  </section>
+
+  {bereiche.map((b, i) => (
+    <section class:list={["border-t border-line py-16", i % 2 === 0 ? "bg-white" : "bg-paper"]}>
+      <div class="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[380px_1fr]">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" class="text-brass" aria-hidden="true"><path d={b.icon} stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <p class="eyebrow mt-5">{b.nr}</p>
+          <h2 class="mt-2 font-display text-3xl text-ink sm:text-4xl">{b.title}</h2>
+          <p class="mt-4 text-sm leading-relaxed text-slate">{b.text}</p>
+          <a href={b.href} class="mt-6 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-ink hover:text-brass-dark">
+            Mehr erfahren <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <ul class="grid content-start gap-x-10 sm:grid-cols-2">
+          {b.items.map((item) => (
+            <li class="flex items-baseline gap-3 border-b border-line py-3.5 text-sm text-ink">
+              <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-brass" aria-hidden="true"></span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  ))}
+
+  <section class="border-t border-line bg-white py-16">
+    <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-2">
+      <img
+        src="/images/site/interieur.svg"
+        alt="Beratungsraum von SIM Immobilien (Musterfoto)"
+        width="700"
+        height="700"
+        class="w-full border border-line object-cover"
+        loading="lazy"
+      />
+      <div>
+        <p class="eyebrow">Unser Anspruch</p>
+        <h2 class="mt-3 font-display text-3xl leading-tight text-ink sm:text-4xl">
+          Alles aus einer Hand — ohne Standardisierung.
+        </h2>
+        <p class="mt-4 max-w-lg text-slate leading-relaxed">
+          Jede Immobilie ist anders, jede Eigentümersituation ebenfalls. Wir bauen
+          keine Prozesse um Ihre Immobilie herum, sondern Lösungen. Kurze Wege,
+          klare Zuständigkeiten, ein Ansprechpartner.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <CTABand
+    eyebrow="Ihr nächster Schritt"
+    title="Lassen Sie uns über Ihre Immobilie sprechen."
+    text="Ob Bewertung, Verkauf, Vermietung oder Verwaltung — wir schauen uns Ihre Situation gemeinsam an und finden die passende Lösung."
+    ctaLabel="Termin vereinbaren"
+    ctaHref="/kontakt/"
+  />
+</Layout>

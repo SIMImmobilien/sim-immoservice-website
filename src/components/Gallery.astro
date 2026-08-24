@@ -1,0 +1,96 @@
+---
+interface Props {
+  bilder: { src: string; alt: string }[];
+}
+
+const { bilder } = Astro.props;
+---
+
+<div class="gallery">
+  <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
+    {bilder.map((bild, i) => (
+      <button
+        type="button"
+        class:list={[
+          "gallery-trigger group relative overflow-hidden rounded-xl bg-line",
+          i === 0 ? "col-span-2 aspect-[16/9] sm:col-span-2 sm:row-span-2" : "aspect-square",
+        ]}
+        data-index={i}
+        aria-label={`Bild vergrößern: ${bild.alt}`}
+      >
+        <img
+          src={bild.src}
+          alt={bild.alt}
+          loading={i === 0 ? "eager" : "lazy"}
+          class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+        />
+      </button>
+    ))}
+  </div>
+
+  <dialog id="gallery-lightbox" class="m-auto max-h-[92vh] max-w-[94vw] overflow-hidden rounded-xl bg-ink p-0 backdrop:bg-ink/90">
+    <div class="relative flex max-h-[92vh] items-center justify-center">
+      <button
+        type="button"
+        id="lightbox-close"
+        class="absolute right-3 top-3 z-10 rounded-full bg-ink/70 p-2 text-white transition hover:bg-brass"
+        aria-label="Schließen"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round" /></svg>
+      </button>
+      <button
+        type="button"
+        id="lightbox-prev"
+        class="absolute left-3 z-10 rounded-full bg-ink/70 p-2 text-white transition hover:bg-brass"
+        aria-label="Vorheriges Bild"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 6-6 6 6 6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
+      <figure class="flex max-h-[92vh] flex-col items-center">
+        <img id="lightbox-image" src="" alt="" class="max-h-[80vh] max-w-[94vw] object-contain" />
+        <figcaption id="lightbox-caption" class="w-full px-4 py-3 text-center text-sm text-white/80"></figcaption>
+      </figure>
+      <button
+        type="button"
+        id="lightbox-next"
+        class="absolute right-3 z-10 rounded-full bg-ink/70 p-2 text-white transition hover:bg-brass"
+        aria-label="Nächstes Bild"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
+    </div>
+  </dialog>
+</div>
+
+<script define:vars={{ bilder }} is:inline>
+  const dialogEl = document.getElementById("gallery-lightbox");
+  const img = document.getElementById("lightbox-image");
+  const caption = document.getElementById("lightbox-caption");
+  let current = 0;
+
+  function show(index) {
+    current = (index + bilder.length) % bilder.length;
+    const item = bilder[current];
+    img.src = item.src;
+    img.alt = item.alt;
+    caption.textContent = item.alt;
+  }
+
+  document.querySelectorAll(".gallery-trigger").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      show(Number(btn.dataset.index));
+      dialogEl.showModal();
+    });
+  });
+
+  document.getElementById("lightbox-close")?.addEventListener("click", () => dialogEl.close());
+  document.getElementById("lightbox-prev")?.addEventListener("click", () => show(current - 1));
+  document.getElementById("lightbox-next")?.addEventListener("click", () => show(current + 1));
+  dialogEl?.addEventListener("click", (e) => {
+    if (e.target === dialogEl) dialogEl.close();
+  });
+  dialogEl?.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") show(current + 1);
+    if (e.key === "ArrowLeft") show(current - 1);
+  });
+</script>

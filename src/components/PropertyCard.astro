@@ -1,0 +1,76 @@
+---
+import type { CollectionEntry } from "astro:content";
+import StatusBadge from "./StatusBadge.astro";
+import { objektartLabels, vermarktungsartLabels, priceLabel, formatNumber } from "../lib/format";
+
+interface Props {
+  entry: CollectionEntry<"immobilien">;
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const cover = d.bilder[0];
+const soldOut = d.status === "verkauft" || d.status === "vermietet";
+---
+
+<a
+  href={`/immobilien/${entry.id}/`}
+  data-objektart={d.objektart}
+  data-vermarktungsart={d.vermarktungsart}
+  data-status={d.status}
+  data-ort={d.ort.toLowerCase()}
+  data-preis={d.preis}
+  class:list={[
+    "group block overflow-hidden border border-line bg-white transition hover:-translate-y-0.5 hover:shadow-lg",
+    soldOut && "opacity-80",
+  ]}
+>
+  <div class="relative aspect-[3/2] overflow-hidden bg-line">
+    {cover && (
+      <img
+        src={cover.src}
+        alt={cover.alt}
+        loading="lazy"
+        width="600"
+        height="400"
+        class:list={[
+          "h-full w-full object-cover transition duration-500 group-hover:scale-105",
+          soldOut && "grayscale-[30%]",
+        ]}
+      />
+    )}
+    <StatusBadge status={d.status} class="absolute left-3 top-3 shadow-sm" />
+  </div>
+  <div class="p-5">
+    <p class="eyebrow">
+      {objektartLabels[d.objektart]} {vermarktungsartLabels[d.vermarktungsart]}
+    </p>
+    <h3 class="mt-1 font-display text-lg text-ink">{d.title}</h3>
+    <p class="mt-1 text-sm text-slate">{d.plz} {d.ort}</p>
+
+    <dl class="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate">
+      {d.zimmer && (
+        <div class="flex items-center gap-1">
+          <dt class="sr-only">Zimmer</dt>
+          <dd class="tabular-nums">{d.zimmer} Zi.</dd>
+        </div>
+      )}
+      {d.wohnflaeche && (
+        <div class="flex items-center gap-1">
+          <dt class="sr-only">Wohnfläche</dt>
+          <dd class="tabular-nums">{d.wohnflaeche} m²</dd>
+        </div>
+      )}
+      {d.grundstueck && (
+        <div class="flex items-center gap-1">
+          <dt class="sr-only">Grundstück</dt>
+          <dd class="tabular-nums">{formatNumber(d.grundstueck)} m² Grundstück</dd>
+        </div>
+      )}
+    </dl>
+
+    <p class="mt-4 font-display text-lg tabular-nums text-brass-dark">
+      {priceLabel(d.vermarktungsart, d.preis, d.preisAufAnfrage)}
+    </p>
+  </div>
+</a>

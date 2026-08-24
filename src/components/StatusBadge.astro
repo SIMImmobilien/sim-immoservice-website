@@ -1,0 +1,21 @@
+---
+import { statusLabels } from "../lib/format";
+
+interface Props {
+  status: "aktiv" | "reserviert" | "verkauft" | "vermietet";
+  class?: string;
+}
+
+const { status, class: className = "" } = Astro.props;
+
+const styles: Record<string, string> = {
+  aktiv: "bg-brass text-ink",
+  reserviert: "bg-white text-ink border border-line",
+  verkauft: "bg-ink/80 text-white",
+  vermietet: "bg-ink/80 text-white",
+};
+---
+
+<span class={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide ${styles[status]} ${className}`}>
+  {statusLabels[status]}
+</span>

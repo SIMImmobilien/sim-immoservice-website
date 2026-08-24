@@ -1,0 +1,94 @@
+---
+import gesucheData from "../data/gesuche.json";
+
+interface Props {
+  teaser?: boolean;
+}
+
+const { teaser = false } = Astro.props;
+
+const categories = [
+  { key: "haeuser", label: "Häuser" },
+  { key: "eigentumswohnungen", label: "Eigentumswohnungen" },
+  { key: "grundstuecke", label: "Baugrundstücke" },
+  { key: "gewerbeSonstige", label: "Gewerbe & Sonstige" },
+] as const;
+
+type Gesuch = { id: string; text: string };
+const data = gesucheData as Record<string, Gesuch[]>;
+
+const totalCount = Object.values(data).reduce((sum, arr) => sum + arr.length, 0);
+
+const teaserItems: Gesuch[] = teaser
+  ? categories.flatMap((c) => data[c.key].slice(0, 2)).slice(0, 6)
+  : [];
+---
+
+{teaser ? (
+  <div class="grid gap-3 sm:grid-cols-2">
+    {teaserItems.map((g) => (
+      <div class="suchkartei-row flex items-baseline gap-3 rounded-lg bg-white px-4 py-3">
+        <span class="shrink-0 font-display text-xs text-brass-dark">{g.id}</span>
+        <p class="text-sm text-ink">Gesucht: {g.text}</p>
+      </div>
+    ))}
+  </div>
+) : totalCount === 0 ? (
+  <div class="border border-dashed border-line bg-white/60 p-10 text-center">
+    <p class="font-display text-xl text-ink">Aktuell keine öffentlichen Gesuche hinterlegt.</p>
+    <p class="mx-auto mt-2 max-w-xl text-sm text-slate">
+      Unsere Suchkartei wird gerade aufbereitet. Ihren Suchauftrag nehmen wir
+      selbstverständlich schon jetzt entgegen — wir melden uns, sobald ein
+      passendes Objekt verfügbar ist, oft bevor es öffentlich inseriert wird.
+    </p>
+  </div>
+) : (
+  <div>
+    <div class="flex flex-wrap gap-2" role="tablist" aria-label="Gesuchskategorien">
+      {categories.map((c, i) => (
+        <button
+          type="button"
+          class="gesuche-tab border border-line px-4 py-2 text-sm font-medium text-slate transition data-[active=true]:border-ink data-[active=true]:bg-ink data-[active=true]:text-white"
+          data-target={c.key}
+          data-active={i === 0 ? "true" : "false"}
+          role="tab"
+          aria-selected={i === 0}
+        >
+          {c.label} <span class="tabular-nums opacity-70">({data[c.key].length})</span>
+        </button>
+      ))}
+    </div>
+
+    <div class="mt-6">
+      {categories.map((c, i) => (
+        <div class="gesuche-panel grid gap-3 sm:grid-cols-2" data-panel={c.key} class:list={[i !== 0 && "hidden"]}>
+          {data[c.key].map((g) => (
+            <div class="suchkartei-row flex items-baseline gap-3 rounded-lg bg-white px-4 py-3">
+              <span class="shrink-0 font-display text-xs text-brass-dark">{g.id}</span>
+              <p class="text-sm text-ink">Gesucht: {g.text}</p>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+    <p class="mt-6 text-sm text-slate">
+      {`Insgesamt ${totalCount} aktuelle Kundengesuche in unserer Kartei — anonymisiert dargestellt.`}
+    </p>
+  </div>
+)}
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>(".gesuche-tab");
+  const panels = document.querySelectorAll<HTMLElement>(".gesuche-panel");
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      tabs.forEach((t) => t.setAttribute("data-active", "false"));
+      tab.setAttribute("data-active", "true");
+      const target = tab.dataset.target;
+      panels.forEach((panel) => {
+        panel.classList.toggle("hidden", panel.dataset.panel !== target);
+      });
+    });
+  });
+</script>

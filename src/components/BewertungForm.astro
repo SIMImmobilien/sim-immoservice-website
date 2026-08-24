@@ -1,0 +1,90 @@
+---
+---
+
+<div id="bewertung" class="scroll-mt-24 border border-line bg-white p-6 sm:p-8">
+  <p class="eyebrow">Kostenlose Bewertung</p>
+  <h2 class="mt-1 font-display text-2xl text-ink">Was ist Ihre Immobilie wert?</h2>
+  <p class="mt-2 text-sm text-slate">
+    Füllen Sie das Formular aus — wir melden uns zeitnah für ein unverbindliches
+    Erstgespräch und, wenn gewünscht, einen Vor-Ort-Termin.
+  </p>
+
+  <form id="bewertung-form" class="mt-6 grid gap-4 sm:grid-cols-2">
+    <input type="text" name="_honeypot" class="hidden" tabindex="-1" autocomplete="off" />
+
+    <div class="flex flex-col gap-1">
+      <label for="bw-objektart" class="text-sm font-medium text-ink">Objektart*</label>
+      <select id="bw-objektart" name="Objektart" required class="rounded-lg border border-line px-3 py-2 text-sm">
+        <option value="">Bitte wählen</option>
+        <option value="Haus">Haus</option>
+        <option value="Wohnung">Wohnung</option>
+        <option value="Grundstück">Grundstück</option>
+        <option value="Mehrfamilienhaus / Renditeobjekt">Mehrfamilienhaus / Renditeobjekt</option>
+        <option value="Gewerbeimmobilie">Gewerbeimmobilie</option>
+      </select>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="bw-ort" class="text-sm font-medium text-ink">Ort / PLZ*</label>
+      <input id="bw-ort" name="Ort/PLZ" type="text" required class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="bw-flaeche" class="text-sm font-medium text-ink">Wohnfläche (m²)</label>
+      <input id="bw-flaeche" name="Wohnfläche" type="number" min="0" class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="bw-grundstueck" class="text-sm font-medium text-ink">Grundstück (m²)</label>
+      <input id="bw-grundstueck" name="Grundstück" type="number" min="0" class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="bw-baujahr" class="text-sm font-medium text-ink">Baujahr</label>
+      <input id="bw-baujahr" name="Baujahr" type="number" min="1800" max="2026" class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="bw-zustand" class="text-sm font-medium text-ink">Zustand</label>
+      <select id="bw-zustand" name="Zustand" class="rounded-lg border border-line px-3 py-2 text-sm">
+        <option value="Neuwertig">Neuwertig</option>
+        <option value="Gepflegt">Gepflegt</option>
+        <option value="Renovierungsbedürftig">Renovierungsbedürftig</option>
+        <option value="Sanierungsbedürftig">Sanierungsbedürftig</option>
+      </select>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="bw-name" class="text-sm font-medium text-ink">Name*</label>
+      <input id="bw-name" name="Name" type="text" required class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="bw-email" class="text-sm font-medium text-ink">E-Mail*</label>
+      <input id="bw-email" name="E-Mail" type="email" required class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <div class="flex flex-col gap-1 sm:col-span-2">
+      <label for="bw-telefon" class="text-sm font-medium text-ink">Telefon</label>
+      <input id="bw-telefon" name="Telefon" type="tel" class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <label class="flex items-start gap-2 text-sm text-ink sm:col-span-2">
+      <input type="checkbox" name="Datenschutz akzeptiert" value="Ja" required class="mt-0.5 h-4 w-4 rounded border-line" />
+      <span>Ich habe die <a href="/datenschutz/" class="underline hover:text-brass">Datenschutzerklärung</a> zur Kenntnis genommen und bin mit der Verarbeitung meiner Daten zur Bearbeitung meiner Anfrage einverstanden.*</span>
+    </label>
+
+    <div data-form-status class="hidden sm:col-span-2" aria-live="polite"></div>
+
+    <div class="sm:col-span-2">
+      <button type="submit" class="btn btn-brass">
+        Kostenlose Bewertung anfragen
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+  import { wireForm } from "../lib/form-handler";
+  wireForm("bewertung-form", "Neue Bewertungsanfrage");
+</script>

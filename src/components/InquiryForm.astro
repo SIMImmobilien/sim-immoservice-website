@@ -1,0 +1,89 @@
+---
+interface Props {
+  objektTitel: string;
+  objektId: string;
+}
+
+const { objektTitel, objektId } = Astro.props;
+---
+
+<div id="anfrage" class="scroll-mt-24 border border-line bg-white p-6 sm:p-8">
+  <p class="eyebrow">Direktanfrage</p>
+  <h2 class="mt-1 font-display text-2xl text-ink">Interesse an diesem Objekt?</h2>
+  <p class="mt-1 text-sm text-slate">Objekt-ID {objektId} · Wir melden uns in der Regel innerhalb eines Werktages.</p>
+
+  <form id="inquiry-form" class="mt-6 grid gap-4 sm:grid-cols-2">
+    <input type="text" name="_honeypot" class="hidden" tabindex="-1" autocomplete="off" />
+    <input type="hidden" name="Objekt" value={`${objektTitel} (${objektId})`} />
+
+    <div class="flex flex-col gap-1 sm:col-span-2">
+      <label for="inq-anrede" class="text-sm font-medium text-ink">Anrede</label>
+      <select id="inq-anrede" name="Anrede" class="rounded-lg border border-line px-3 py-2 text-sm">
+        <option value="Keine Angabe">Keine Angabe</option>
+        <option value="Frau">Frau</option>
+        <option value="Herr">Herr</option>
+      </select>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="inq-name" class="text-sm font-medium text-ink">Name*</label>
+      <input id="inq-name" name="Name" type="text" required class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="inq-email" class="text-sm font-medium text-ink">E-Mail*</label>
+      <input id="inq-email" name="E-Mail" type="email" required class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="inq-telefon" class="text-sm font-medium text-ink">Telefon*</label>
+      <input id="inq-telefon" name="Telefon" type="tel" required class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="inq-adresse" class="text-sm font-medium text-ink">Adresse*</label>
+      <input id="inq-adresse" name="Adresse" type="text" required class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <label class="flex items-center gap-2 text-sm text-ink sm:col-span-2">
+      <input type="checkbox" name="Besichtigungstermin gewünscht" value="Ja" class="h-4 w-4 rounded border-line" />
+      Besichtigungstermin erwünscht
+    </label>
+
+    <div class="flex flex-col gap-1 sm:col-span-2">
+      <label for="inq-nachricht" class="text-sm font-medium text-ink">Nachricht*</label>
+      <textarea
+        id="inq-nachricht"
+        name="Nachricht"
+        required
+        rows="4"
+        class="rounded-lg border border-line px-3 py-2 text-sm"
+      >{`Ich interessiere mich für das Angebot „${objektTitel}“ (${objektId}) und bitte um weitere Informationen.`}</textarea>
+    </div>
+
+    <div class="flex flex-col gap-2 sm:col-span-2">
+      <label class="flex items-start gap-2 text-sm text-ink">
+        <input type="checkbox" name="Datenschutz akzeptiert" value="Ja" required class="mt-0.5 h-4 w-4 rounded border-line" />
+        <span>Ich habe die <a href="/datenschutz/" class="underline hover:text-brass">Datenschutzerklärung</a> zur Kenntnis genommen und bin mit der Verarbeitung meiner Daten zur Bearbeitung meiner Anfrage einverstanden.*</span>
+      </label>
+      <label class="flex items-start gap-2 text-sm text-ink">
+        <input type="checkbox" name="Widerrufsbelehrung akzeptiert" value="Ja" required class="mt-0.5 h-4 w-4 rounded border-line" />
+        <span>Ich habe die Widerrufsbelehrung zur Maklertätigkeit zur Kenntnis genommen und akzeptiere diese.*</span>
+      </label>
+    </div>
+
+    <div data-form-status class="hidden sm:col-span-2" aria-live="polite"></div>
+
+    <div class="sm:col-span-2">
+      <button type="submit" class="btn btn-dark">
+        Anfrage senden
+      </button>
+      <p class="mt-2 text-xs text-slate">🔒 Ihre Anfrage wird SSL-verschlüsselt übertragen.</p>
+    </div>
+  </form>
+</div>
+
+<script>
+  import { wireForm } from "../lib/form-handler";
+  wireForm("inquiry-form", "Neue Immobilienanfrage");
+</script>

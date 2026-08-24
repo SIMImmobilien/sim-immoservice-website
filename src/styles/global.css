@@ -1,0 +1,168 @@
+@import "@fontsource-variable/source-serif-4";
+@import "@fontsource-variable/source-serif-4/wght-italic.css";
+@import "@fontsource-variable/hanken-grotesk";
+/* Fonts are loaded via <link> in Layout.astro (preconnect + stylesheet) —
+   a CSS @import here would delay first render on slow mobile connections. */
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Source Serif 4 Variable", ui-serif, Georgia, serif;
+  --font-body: "Hanken Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #141a23;
+  --color-slate: #4a5058;
+  --color-paper: #f7f5f1;
+  --color-line: #dcd7cc;
+  --color-brass: #b48b4d;
+  --color-brass-soft: #e9ddc6;
+  --color-brass-dark: #8a6a37;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom classes live in the components layer so Tailwind utilities
+   (e.g. `hidden`, responsive variants) can still override them. */
+@layer components {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-brass-dark);
+  }
+
+  /* Rectangular, uppercase, letterspaced buttons — reference design language */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.6rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+  }
+
+  .btn-sm {
+    padding: 0.6rem 1.15rem;
+  }
+
+  .btn-brass {
+    background-color: var(--color-brass);
+    color: var(--color-ink);
+  }
+  .btn-brass:hover {
+    background-color: var(--color-brass-dark);
+    color: #fff;
+  }
+
+  .btn-dark {
+    background-color: var(--color-ink);
+    color: #fff;
+  }
+  .btn-dark:hover {
+    background-color: var(--color-brass);
+    color: var(--color-ink);
+  }
+
+  .btn-outline-ink {
+    border: 1px solid var(--color-line);
+    color: var(--color-ink);
+  }
+  .btn-outline-ink:hover {
+    border-color: var(--color-brass);
+    color: var(--color-brass-dark);
+  }
+
+  .btn-outline-light {
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    color: #fff;
+  }
+  .btn-outline-light:hover {
+    border-color: #fff;
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .btn-outline-brass {
+    border: 1px solid var(--color-brass);
+    color: var(--color-brass);
+  }
+  .btn-outline-brass:hover {
+    background-color: var(--color-brass);
+    color: var(--color-ink);
+  }
+
+  /* Suchkartei fiche styling used by GesucheBoard */
+  .suchkartei-row {
+    border-left: 2px solid var(--color-brass-soft);
+    transition: border-color 150ms ease, transform 150ms ease;
+  }
+
+  .suchkartei-row:hover {
+    border-left-color: var(--color-brass);
+    transform: translateX(2px);
+  }
+}
+
+/* Visible focus ring everywhere, including hidden-until-focus skip link */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-brass);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--color-ink);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0 0 0.5rem 0;
+}
+
+.skip-link:focus {
+  left: 0;
+}

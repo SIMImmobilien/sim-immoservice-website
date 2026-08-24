@@ -1,0 +1,204 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SectionHead from "../../components/SectionHead.astro";
+import CTABand from "../../components/CTABand.astro";
+import { site } from "../../data/site";
+
+const haltung = [
+  { title: "Seriös & ehrlich", text: "Wir versprechen keine Preise, die wir nicht halten können." },
+  { title: "Modern & bodenständig", text: "Zeitgemäße Vermarktung mit dem Verständnis für die Region." },
+  { title: "Diskret & respektvoll", text: "Besonders in sensiblen Situationen zählt Zurückhaltung." },
+  { title: "Erreichbar", text: "Ein Ansprechpartner — keine Warteschleife." },
+  { title: "Kompetent", text: "Fachliche Tiefe in Bewertung, Verkauf, Verwaltung und Service." },
+  { title: "Langfristig", text: "Wir bleiben auch nach dem Notartermin ansprechbar." },
+];
+
+const zielgruppen = [
+  "Eigentümer Einfamilienhäuser",
+  "Eigentümer Mehrfamilienhäuser",
+  "Kapitalanleger",
+  "Erbengemeinschaften",
+  "Nachlassverwalter",
+  "Menschen mit geerbten Immobilien",
+  "Eigentümer in schwierigen Lebenslagen",
+  "Vermieter",
+  "Wohnungseigentümergemeinschaften",
+  "Unternehmen",
+  "Privatpersonen",
+];
+
+const team = [
+  {
+    name: "Thomas Genschmer",
+    role: "Geschäftsführer & Immobilienmakler",
+    // Echtes Foto von der bisherigen Website des Kunden. Es diente als
+    // Vorlage für die übrigen Porträts — daher zeigen diese denselben
+    // Hintergrund.
+    foto: "/images/team/genschmer.jpg",
+  },
+  {
+    name: "S. von Kleist",
+    role: "Buchhaltung",
+    foto: "/images/team/kleist.jpg",
+    kiHinweis: true,
+  },
+  {
+    name: "M. Wagner",
+    role: "Gebäudemanagement",
+    foto: "/images/team/wagner.jpg",
+    // Transparenzhinweis nach Art. 50 KI-VO: Porträt wurde mit KI erstellt
+    // bzw. wesentlich bearbeitet. Bei Austausch gegen ein echtes Foto
+    // dieses Flag entfernen.
+    kiHinweis: true,
+  },
+  {
+    name: "D. Olivier",
+    role: "Gebäudemanagement",
+    foto: "/images/team/olivier.jpg",
+    kiHinweis: true,
+  },
+];
+
+const fakten = [
+  "Erlaubnis nach § 34c GewO",
+  `Inhabergeführte GmbH — ${site.handelsregister}`,
+  "Makler, Hausverwaltung & Objektservice aus einer Hand",
+  "Persönlich erreichbar — Termine auch abends",
+];
+---
+
+<Layout
+  title={`Über uns | ${site.name}`}
+  description={`Die ${site.name} ist ein inhabergeführtes Immobilienunternehmen mit Sitz in Montabaur — regional verwurzelt im Westerwald und den angrenzenden Regionen.`}
+>
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <SectionHead eyebrow="Über uns">
+      <Fragment slot="title">
+        Ein Unternehmen mit <em class="font-normal text-slate">Gesicht, Haltung und Heimat.</em>
+      </Fragment>
+      <Fragment slot="text">
+        Die {site.name} ist ein inhabergeführtes Immobilienunternehmen mit Sitz
+        in Montabaur. Wir arbeiten dort, wo wir zu Hause sind — im Westerwald
+        und den angrenzenden Regionen.
+      </Fragment>
+    </SectionHead>
+  </section>
+
+  <section class="border-t border-line bg-white py-16">
+    <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-2">
+      <img
+        src="/images/site/montabaur-altstadt.jpg"
+        srcset="/images/site/montabaur-altstadt-640.jpg 640w, /images/site/montabaur-altstadt-1000.jpg 1000w, /images/site/montabaur-altstadt.jpg 1600w"
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        alt="Altstadt von Montabaur mit Fachwerkhäusern und Fußgängerzone"
+        width="1600"
+        height="1067"
+        class="w-full border border-line object-cover"
+        loading="lazy"
+      />
+      <div>
+        <p class="eyebrow">Philosophie</p>
+        <h2 class="mt-3 font-display text-3xl leading-tight text-ink sm:text-4xl">
+          Der Markt lebt von Vertrauen.
+        </h2>
+        <p class="mt-4 max-w-lg text-slate leading-relaxed">
+          Bei uns stehen nicht Verkaufszahlen im Mittelpunkt, sondern die
+          Menschen hinter jeder Immobilie. Wir nehmen uns Zeit, hören zu und
+          entwickeln Lösungen, die zu Ihrer Lebenssituation passen — nicht
+          umgekehrt.
+        </p>
+        <ul class="mt-8 divide-y divide-line border-t border-line">
+          {["Wir nehmen uns Zeit.", "Wir hören zu.", "Wir entwickeln individuelle Lösungen."].map((item) => (
+            <li class="flex items-baseline gap-3 py-4 font-display text-lg text-ink">
+              <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-brass" aria-hidden="true"></span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-line py-16">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <p class="eyebrow">Haltung</p>
+      <h2 class="mt-3 font-display text-3xl text-ink sm:text-4xl">Was uns wichtig ist.</h2>
+      <div class="mt-10 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+        {haltung.map((h) => (
+          <div class="border-t border-line pt-5">
+            <h3 class="font-display text-lg text-ink">{h.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-slate">{h.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ink py-20 text-white">
+    <div class="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[180px_1fr]">
+      <p class="eyebrow pt-3 text-brass lg:border-t lg:border-brass lg:pt-4">Zielgruppe</p>
+      <div>
+        <h2 class="max-w-2xl font-display text-3xl leading-[1.15] sm:text-4xl">
+          Für Eigentümer, Erben, Kapitalanleger und alle dazwischen.
+        </h2>
+        <ul class="mt-10 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
+          {zielgruppen.map((z) => (
+            <li class="border-b border-white/15 py-4 text-sm text-white/85">{z}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-line bg-white py-16">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <p class="eyebrow">Für Sie da</p>
+      <h2 class="mt-3 font-display text-3xl text-ink sm:text-4xl">Das Team stellt sich vor.</h2>
+      <div class="mt-10 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+        {team.map((person) => (
+          <figure>
+            <div class="relative">
+              <img
+                src={person.foto}
+                alt={`Porträt von ${person.name}${person.kiHinweis ? " (KI-generiert)" : ""}`}
+                width="600"
+                height="600"
+                loading="lazy"
+                class="aspect-square w-full border border-line object-cover"
+              />
+              {person.kiHinweis && (
+                <span
+                  class="absolute bottom-2 right-2 bg-ink/75 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-white backdrop-blur-sm"
+                  title="Dieses Porträt wurde mit künstlicher Intelligenz erstellt bzw. bearbeitet."
+                >
+                  KI
+                </span>
+              )}
+            </div>
+            <figcaption class="mt-4">
+              <p class="font-display text-lg text-ink">{person.name}</p>
+              <p class="mt-0.5 text-sm text-slate">{person.role}</p>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <ul class="mt-14 grid gap-2 border-t border-line pt-8 sm:grid-cols-2">
+        {fakten.map((m) => (
+          <li class="flex items-start gap-2 text-sm text-ink">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mt-0.5 shrink-0 text-brass"><path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            {m}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CTABand
+    eyebrow="Kostenlose Erstberatung"
+    title="Lernen wir uns kennen."
+    text="Ob Bewertung, Verkauf, Vermietung oder Verwaltung — rufen Sie an oder schreiben Sie uns direkt."
+    ctaLabel="Kontakt aufnehmen"
+    ctaHref="/kontakt/"
+  />
+</Layout>

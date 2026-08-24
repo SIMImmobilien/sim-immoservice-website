@@ -1,0 +1,46 @@
+---
+import { site } from "../data/site";
+
+const fakten = [
+  "Erlaubnis nach § 34c GewO",
+  `Inhabergeführte GmbH — ${site.handelsregister}`,
+  "Makler, Hausverwaltung & Objektservice aus einer Hand",
+  "Persönlich erreichbar — Termine auch abends",
+];
+---
+
+<section class="border-y border-line bg-white">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[auto_1fr] lg:items-center">
+    <img
+      src="/images/team/genschmer.jpg"
+      alt={`Porträt von ${site.owner}`}
+      width="180"
+      height="180"
+      loading="lazy"
+      class="h-44 w-44 rounded-full border border-line object-cover"
+    />
+    <div>
+      <p class="eyebrow">Warum {site.shortName}</p>
+      <h2 class="mt-2 font-display text-3xl text-ink">
+        Regional verwurzelt, diskret &amp; ehrlich — {site.owner}
+      </h2>
+      <p class="mt-4 max-w-2xl text-slate leading-relaxed">
+        Klassischer Makler mit langjähriger Erfahrung: Ich kenne den Immobilienmarkt
+        zwischen Westerwald, Rhein-Lahn und Limburg aus täglicher Praxis und begleite
+        Sie rund um Ihre Immobilie — vom ersten Gespräch bis über den Abschluss hinaus.
+      </p>
+      <blockquote class="mt-5 max-w-2xl border-l-2 border-brass pl-4 font-display text-lg italic text-ink">
+        „Bei uns landet Ihre Anfrage nicht in einem Ticketsystem, sondern bei einem
+        Menschen, der Sie kennt."
+      </blockquote>
+      <ul class="mt-6 grid gap-2 sm:grid-cols-2">
+        {fakten.map((m) => (
+          <li class="flex items-start gap-2 text-sm text-ink">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mt-0.5 shrink-0 text-brass"><path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            {m}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

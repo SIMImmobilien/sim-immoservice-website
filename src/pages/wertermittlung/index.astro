@@ -1,0 +1,217 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import BewertungForm from "../../components/BewertungForm.astro";
+import FAQAccordion from "../../components/FAQAccordion.astro";
+import CTABand from "../../components/CTABand.astro";
+import { site } from "../../data/site";
+
+const verfahren = [
+  {
+    title: "Vergleichswertverfahren",
+    text: "Der Marktwert wird aus tatsächlich erzielten Kaufpreisen vergleichbarer Objekte in Ihrer Lage abgeleitet. Das Standardverfahren für Eigentumswohnungen, Einfamilienhäuser und Baugrundstücke — vorausgesetzt, man kennt den lokalen Markt.",
+  },
+  {
+    title: "Ertragswertverfahren",
+    text: "Bei vermieteten Objekten und Renditeimmobilien zählt, was die Immobilie nachhaltig erwirtschaftet: Mieteinnahmen, Bewirtschaftungskosten, Restnutzungsdauer und Bodenwert fließen in die Berechnung ein.",
+  },
+  {
+    title: "Sachwertverfahren",
+    text: "Wenn Vergleichspreise fehlen — etwa bei besonderen Objekten — wird der Wert aus Bodenwert und den Herstellungskosten des Gebäudes abzüglich Alterswertminderung ermittelt.",
+  },
+];
+
+const anlaesse = [
+  {
+    title: "Verkauf",
+    text: "Der Angebotspreis entscheidet über Erfolg oder Stillstand: Zu hoch angesetzt wird die Immobilie zum Ladenhüter, zu niedrig verschenken Sie Vermögen.",
+  },
+  {
+    title: "Erbschaft & Schenkung",
+    text: "Für die Aufteilung unter Erben und die Einordnung gegenüber dem Finanzamt brauchen Sie eine belastbare, nachvollziehbare Werteinschätzung.",
+  },
+  {
+    title: "Scheidung & Vermögensauseinandersetzung",
+    text: "Eine neutrale Bewertung schafft eine faire Verhandlungsgrundlage — bevor Emotionen den Preis bestimmen.",
+  },
+  {
+    title: "Finanzierung & Vermögensplanung",
+    text: "Ob Anschlussfinanzierung, Beleihung oder einfach ein aktueller Überblick: Der reale Marktwert ist die Grundlage jeder Entscheidung.",
+  },
+];
+
+const ablauf = [
+  {
+    title: "Anfrage & Erstgespräch",
+    text: "Sie senden uns die Eckdaten Ihrer Immobilie — telefonisch oder über das Formular. Wir besprechen Anlass und Ziel der Bewertung.",
+  },
+  {
+    title: "Vor-Ort-Termin",
+    text: "Wir besichtigen Ihre Immobilie persönlich: Zustand, Ausstattung, Lagequalität und Besonderheiten lassen sich nicht aus Datenbanken ablesen.",
+  },
+  {
+    title: "Analyse & Vergleichsdaten",
+    text: "Wir werten reale Verkaufsfälle aus der Region aus und wenden das passende Verfahren nach ImmoWertV an — nachvollziehbar dokumentiert.",
+  },
+  {
+    title: "Ergebnis & Empfehlung",
+    text: "Sie erhalten eine fundierte Markteinschätzung mit klarer Preisempfehlung — und auf Wunsch eine Strategie für den Verkauf.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "Was kostet die Wertermittlung?",
+    answer:
+      "Die Markteinschätzung im Zusammenhang mit einem geplanten Verkauf oder einer Vermietung ist für Eigentümer kostenlos und unverbindlich. Für schriftliche Ausarbeitungen zu anderen Anlässen erstellen wir Ihnen gerne ein Angebot.",
+  },
+  {
+    question: "Wie lange dauert eine Wertermittlung?",
+    answer:
+      "Vom Vor-Ort-Termin bis zum Ergebnisgespräch vergehen in der Regel wenige Werktage — abhängig von Objektart und Unterlagenlage.",
+  },
+  {
+    question: "Warum reicht ein Online-Rechner nicht?",
+    answer:
+      "Online-Rechner kennen weder den Zustand Ihrer Immobilie noch die Mikrolage — und dienen oft vor allem dazu, Ihre Kontaktdaten einzusammeln. Eine seriöse Bewertung braucht die Besichtigung vor Ort und reale Vergleichspreise aus der Region.",
+  },
+  {
+    question: "Welche Unterlagen werden benötigt?",
+    answer:
+      "Hilfreich sind Grundbuchauszug, Grundrisse, Wohnflächenberechnung, Energieausweis und bei Eigentumswohnungen die Teilungserklärung. Fehlende Unterlagen beschaffen wir gemeinsam.",
+  },
+  {
+    question: "Ist die Bewertung verbindlich für den Verkaufspreis?",
+    answer:
+      "Die Markteinschätzung ist eine fundierte Empfehlung — den endgültigen Angebotspreis legen Sie fest. Wir beraten Sie zur Preisstrategie, die zu Ihrem Zeitplan passt.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+---
+
+<Layout
+  title={`Immobilienbewertung & Wertermittlung im Westerwald | ${site.name}`}
+  description={`Fundierte Wertermittlung für Haus, Wohnung und Grundstück in Montabaur und dem Westerwald — mit Vor-Ort-Besichtigung und realen Vergleichsdaten statt anonymer Online-Schätzung. ${site.name}.`}
+  jsonLd={[faqJsonLd]}
+>
+  <section class="relative">
+    <div class="relative h-[46vh] min-h-[380px] w-full overflow-hidden">
+      <img
+        src="/images/site/verkaufen-hero.svg"
+        alt="Wohnraum einer zu bewertenden Immobilie (Musterfoto)"
+        class="h-full w-full object-cover"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/30 to-ink/10"></div>
+      <div class="absolute inset-0 flex items-center">
+        <div class="mx-auto w-full max-w-6xl px-4 sm:px-6">
+          <p class="eyebrow text-brass-soft">Wertermittlung</p>
+          <h1 class="mt-3 max-w-2xl font-display text-4xl text-white sm:text-5xl">
+            Was ist Ihre Immobilie <em class="font-normal">wirklich</em> wert?
+          </h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <div class="space-y-4 text-slate leading-relaxed">
+      <p>
+        Der Wert einer Immobilie ist keine Zahl aus dem Internet. Er entsteht aus
+        Lage, Zustand, Ausstattung, Nachfrage — und aus dem, was vergleichbare
+        Objekte in Ihrer Nachbarschaft tatsächlich erzielt haben. Genau hier
+        setzt unsere Wertermittlung an: mit persönlicher Besichtigung, realen
+        Vergleichsdaten aus dem Westerwald und einer Einschätzung, die wir Ihnen
+        Punkt für Punkt erklären können.
+      </p>
+      <p>
+        Kostenlose Online-Rechner liefern in Sekunden eine Spanne — aber sie
+        kennen weder die Aussicht aus Ihrem Wohnzimmer noch den Sanierungsstau im
+        Keller, und häufig sind sie vor allem ein Werkzeug, um Ihre Kontaktdaten
+        einzusammeln. Wer eine Verkaufsentscheidung, eine Erbauseinandersetzung
+        oder eine Finanzierung auf eine solche Zahl stützt, riskiert bares Geld.
+      </p>
+      <p class="font-medium text-ink">
+        {site.name} ermittelt den Marktwert Ihrer Immobilie fundiert,
+        nachvollziehbar und persönlich — in Montabaur und im gesamten Westerwald.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-white py-16">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <p class="eyebrow">Die Verfahren</p>
+      <h2 class="mt-1 font-display text-3xl text-ink">Drei Wege zum Marktwert — nach ImmoWertV</h2>
+      <p class="mt-3 max-w-2xl text-slate">
+        Welches Verfahren das richtige ist, hängt von Ihrer Immobilie ab. Oft
+        kombinieren wir mehrere Ansätze, um das Ergebnis abzusichern.
+      </p>
+      <div class="mt-8 grid gap-6 md:grid-cols-3">
+        {verfahren.map((v) => (
+          <div class="border border-line bg-paper p-6">
+            <h3 class="font-display text-lg text-ink">{v.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-slate">{v.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <p class="eyebrow">Anlässe</p>
+    <h2 class="mt-1 font-display text-3xl text-ink">Wann Sie eine Wertermittlung brauchen</h2>
+    <div class="mt-8 grid gap-6 sm:grid-cols-2">
+      {anlaesse.map((a) => (
+        <div class="flex gap-4 border border-line bg-white p-6">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="mt-0.5 shrink-0 text-brass"><path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <div>
+            <h3 class="font-display text-lg text-ink">{a.title}</h3>
+            <p class="mt-1 text-sm leading-relaxed text-slate">{a.text}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-white py-16">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <p class="eyebrow">So läuft es ab</p>
+      <h2 class="mt-1 font-display text-3xl text-ink">In vier Schritten zur fundierten Einschätzung</h2>
+      <div class="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {ablauf.map((step, i) => (
+          <div class="relative border border-line bg-paper p-6">
+            <span class="font-display text-3xl text-brass-soft">{String(i + 1).padStart(2, "0")}</span>
+            <h3 class="mt-3 font-display text-lg text-ink">{step.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-slate">{step.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <BewertungForm />
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 pb-16 sm:px-6">
+    <p class="eyebrow">Häufige Fragen</p>
+    <h2 class="mt-1 font-display text-3xl text-ink">Fragen &amp; Antworten zur Wertermittlung</h2>
+    <div class="mt-8">
+      <FAQAccordion items={faqItems} />
+    </div>
+  </section>
+
+  <CTABand
+    title="Lieber direkt sprechen?"
+    text={`Rufen Sie an (${site.phoneDisplay}) oder schreiben Sie uns — wir melden uns persönlich zurück.`}
+    ctaLabel="Kontakt aufnehmen"
+    ctaHref="/kontakt/"
+  />
+</Layout>

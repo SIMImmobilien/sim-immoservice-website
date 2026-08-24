@@ -1,0 +1,47 @@
+export const site = {
+  name: "SIM Immobilien Service GmbH",
+  shortName: "SIM Immobilien",
+  claim: "Immobilien mit Vertrauen. Persönlich betreut aus Montabaur.",
+  owner: "Thomas Genschmer",
+  ownerFull: "Thomas Stephan Genschmer",
+  ownerTitle: "Geschäftsführer & Immobilienmakler",
+  // Einzige gültige Anschrift (seit 02/2026): Büro & eingetragener Sitz in Montabaur.
+  // Die frühere Altenkirchener Adresse darf nirgends mehr auftauchen.
+  street: "Vorderer Rebstock 6",
+  zip: "56410",
+  city: "Montabaur",
+  handelsregister: "Amtsgericht Montabaur, HRB 30192",
+  ustId: "DE450314011",
+  aufsichtsbehoerde: "IHK Koblenz, Schloßstraße 2, 56068 Koblenz",
+  region: "Westerwald / Rhein-Lahn / Limburg",
+  phone: "+49 2602 9524395",
+  phoneDisplay: "02602 952 43 95",
+  phoneHeader: "02602 · Rückruf",
+  phoneNote: "02602 952 43 95",
+  email: "info@sim-immoservice.de",
+  hours: "Mo–Fr 9:00–18:00 · Sa 10:00–14:00",
+  hoursNote: "Weitere Termine nach Absprache möglich.",
+  tagline:
+    "Inhabergeführt aus Montabaur. Wir begleiten Eigentümer im Westerwald, an Rhein, Lahn und in Koblenz — persönlich, ehrlich und langfristig.",
+  googleBusiness: "https://www.google.com/maps/search/?api=1&query=Vorderer+Rebstock+6%2C+56410+Montabaur",
+  siteUrl: "https://www.sim-immoservice.de",
+  credit: "Webdesign: Chourol Webdesign",
+} as const;
+
+export const regionen = [
+  "Montabaur",
+  "Westerwaldkreis",
+  "Altenkirchen",
+  "Rhein-Lahn-Kreis",
+  "Limburg-Weilburg",
+  "Koblenz",
+  "Neuwied",
+  "Hachenburg",
+  "Bad Marienberg",
+  "Wirges",
+  "Ransbach-Baumbach",
+  "Dernbach",
+  "Höhr-Grenzhausen",
+  "Wallmerod",
+  "Selters",
+] as const;

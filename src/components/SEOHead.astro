@@ -1,0 +1,55 @@
+---
+import { site } from "../data/site";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+}
+
+const { title, description, image, noindex = false, jsonLd = [] } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, site.siteUrl);
+const ogImage = image ?? `${site.siteUrl}/images/site/og-image.jpg`;
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "RealEstateAgent",
+  name: site.name,
+  url: site.siteUrl,
+  telephone: site.phone,
+  email: site.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: site.street,
+    postalCode: site.zip,
+    addressLocality: site.city,
+    addressCountry: "DE",
+  },
+  areaServed: site.region,
+  openingHours: "Mo-Fr 09:00-18:00",
+  sameAs: [site.googleBusiness],
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+{noindex && <meta name="robots" content="noindex,nofollow" />}
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:locale" content="de_DE" />
+<meta property="og:site_name" content={site.name} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} is:inline />
+{jsonLd.map((entry) => <script type="application/ld+json" set:html={JSON.stringify(entry)} is:inline />)}

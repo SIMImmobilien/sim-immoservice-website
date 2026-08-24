@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from "astro:content";
+import PropertyCard from "./PropertyCard.astro";
+
+interface Props {
+  entries: CollectionEntry<"immobilien">[];
+  emptyMessage?: string;
+}
+
+const { entries, emptyMessage = "Aktuell keine passenden Objekte." } = Astro.props;
+---
+
+<div class:list={["grid gap-6 sm:grid-cols-2 lg:grid-cols-3", entries.length === 0 && "hidden"]} id="property-grid">
+  {entries.map((entry) => <PropertyCard entry={entry} />)}
+</div>
+<div
+  class:list={["border border-dashed border-line bg-white/60 p-12 text-center", entries.length > 0 && "hidden"]}
+  id="property-grid-empty"
+>
+  <p class="font-display text-xl text-ink">{emptyMessage}</p>
+  <p class="mt-2 text-sm text-slate">
+    Hinterlegen Sie einen Suchauftrag — wir informieren Sie, sobald ein passendes Objekt verfügbar ist,
+    oft bevor es öffentlich inseriert wird.
+  </p>
+  <a
+    href="/suchauftrag/"
+    class="btn btn-sm btn-dark mt-5"
+  >
+    Suchauftrag hinterlegen
+  </a>
+</div>

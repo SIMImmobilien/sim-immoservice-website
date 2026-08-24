@@ -1,0 +1,87 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { site } from "../../data/site";
+---
+
+<Layout title={`Impressum | ${site.name}`} description="Impressum und Anbieterkennzeichnung." noindex>
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <h1 class="font-display text-4xl text-ink">Impressum</h1>
+
+    <div class="prose-content mt-8 space-y-6 text-sm leading-relaxed text-slate">
+      <div>
+        <h2 class="font-display text-xl text-ink">Angaben gemäß § 5 DDG</h2>
+        <p class="mt-2">
+          {site.name}<br />
+          {site.street}<br />
+          {site.zip} {site.city}
+        </p>
+        <p class="mt-2">
+          Vertreten durch den Geschäftsführer: {site.ownerFull}
+        </p>
+        <p class="mt-2">
+          Registergericht: Amtsgericht Montabaur<br />
+          Registernummer: HRB 30192<br />
+          Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz: {site.ustId}
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl text-ink">Kontakt</h2>
+        <p class="mt-2">
+          Telefon: {site.phoneDisplay}<br />
+          E-Mail: {site.email}
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl text-ink">Redaktionell verantwortlich</h2>
+        <p class="mt-2">
+          {site.ownerFull}<br />
+          {site.street}, {site.zip} {site.city}
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl text-ink">Aufsichtsbehörde und Berufsrecht</h2>
+        <p class="mt-2">
+          Zuständige Aufsichtsbehörde / Kammer: {site.aufsichtsbehoerde}
+        </p>
+        <p class="mt-2">
+          Berufsbezeichnung: Immobilienmakler (verliehen in Deutschland)<br />
+          Berufsrechtliche Regelungen: § 34c Gewerbeordnung (GewO) sowie
+          Makler- und Bauträgerverordnung (MaBV), einsehbar unter
+          <a href="https://www.gesetze-im-internet.de/" target="_blank" rel="noopener noreferrer" class="underline hover:text-ink"> gesetze-im-internet.de</a>.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl text-ink">Verbraucherstreitbeilegung</h2>
+        <p class="mt-2">
+          Wir sind nicht verpflichtet und nicht bereit, an
+          Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
+          teilzunehmen.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl text-ink">Hinweis zu KI-generierten Inhalten</h2>
+        <p class="mt-2">
+          Einzelne Bilder auf dieser Website wurden mithilfe künstlicher
+          Intelligenz erstellt oder bearbeitet. Diese Inhalte sind an der
+          jeweiligen Abbildung entsprechend gekennzeichnet
+          (Art. 50 Verordnung (EU) 2024/1689 — KI-Verordnung).
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl text-ink">Haftung für Inhalte</h2>
+        <p class="mt-2">
+          Als Diensteanbieter sind wir für eigene Inhalte auf diesen Seiten
+          nach den allgemeinen Gesetzen verantwortlich. Objektangaben erfolgen
+          nach bestem Wissen, jedoch ohne Gewähr; Zwischenverkauf und Irrtum
+          vorbehalten.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

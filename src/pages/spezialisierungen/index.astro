@@ -1,0 +1,110 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SectionHead from "../../components/SectionHead.astro";
+import CTABand from "../../components/CTABand.astro";
+import { site } from "../../data/site";
+
+const spezialisierungen = [
+  {
+    title: "Erbschaftsimmobilien",
+    text: "Wir begleiten Erben durch Bewertung, Erbengemeinschaft und Verkauf — mit dem nötigen Feingefühl.",
+  },
+  {
+    title: "Nachlassimmobilien",
+    text: "Von der ersten Sichtung bis zur strukturierten Verwertung. Ruhig, sortiert, nachvollziehbar.",
+  },
+  {
+    title: "Erbengemeinschaften",
+    text: "Wir moderieren zwischen den Beteiligten und schaffen Klarheit, wo oft Emotionen dominieren.",
+  },
+  {
+    title: "Scheidungsimmobilien",
+    text: "Diskret, sachlich und lösungsorientiert. Ohne Partei zu ergreifen.",
+  },
+  {
+    title: "Immobilien aus Insolvenzverfahren",
+    text: "Zusammenarbeit mit Insolvenzverwaltern und Gläubigern, transparent und verlässlich.",
+  },
+  {
+    title: "Finanzielle Schwierigkeiten",
+    text: "Wir zeigen Optionen auf, bevor der Druck steigt — vertraulich und ohne Bewertung.",
+  },
+  {
+    title: "Leerstehende Immobilien",
+    text: "Ob Reaktivierung, Vermietung oder Verkauf: Wir bringen Objekte wieder in Bewegung.",
+  },
+  {
+    title: "Sanierungsbedürftige Objekte",
+    text: "Realistische Einschätzung von Zustand, Aufwand und Marktwert.",
+  },
+  {
+    title: "Vermietete Immobilien",
+    text: "Bewertung und Verkauf mit Rücksicht auf bestehende Mietverhältnisse.",
+  },
+  {
+    title: "Mehrfamilienhäuser",
+    text: "Für Kapitalanleger und Eigentümerfamilien — von der Bewertung bis zur Verwaltung.",
+  },
+  {
+    title: "Wohn- und Gewerbeimmobilien",
+    text: "Gemischt genutzte Objekte mit ihren spezifischen Anforderungen.",
+  },
+];
+---
+
+<Layout
+  title={`Spezialisierungen — Erbschaft, Scheidung & sensible Situationen | ${site.name}`}
+  description={`Erbschaftsimmobilien, Scheidungsimmobilien, Insolvenz und schwierige Lebenslagen: ${site.name} begleitet Eigentümer im Westerwald diskret, respektvoll und mit fachlicher Ruhe.`}
+>
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <SectionHead eyebrow="Spezialisierungen">
+      <Fragment slot="title">
+        Wenn die Immobilie <em class="font-normal text-slate">mehr ist als eine Zahl.</em>
+      </Fragment>
+      <Fragment slot="text">
+        Erbschaft, Scheidung, Pflegebedürftigkeit oder wirtschaftliche
+        Herausforderung: In sensiblen Situationen zählt weniger Tempo als
+        Klarheit. Wir begleiten Eigentümer diskret, respektvoll und mit
+        fachlicher Ruhe.
+      </Fragment>
+    </SectionHead>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+    <div class="grid divide-y divide-line border border-line bg-white sm:grid-cols-2 sm:divide-x lg:grid-cols-3">
+      {spezialisierungen.map((s, i) => (
+        <div class="p-8">
+          <p class="eyebrow">{String(i + 1).padStart(2, "0")}</p>
+          <h2 class="mt-4 font-display text-xl text-ink">{s.title}</h2>
+          <p class="mt-2 text-sm leading-relaxed text-slate">{s.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-white py-16">
+    <div class="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 lg:grid-cols-[180px_1fr]">
+      <p class="eyebrow pt-3 lg:border-t lg:border-brass lg:pt-4">Unser Selbstverständnis</p>
+      <div>
+        <h2 class="max-w-3xl font-display text-3xl leading-[1.15] text-ink sm:text-4xl">
+          Wirtschaftliche Notlagen sind für uns keine Chance — sondern eine
+          Verantwortung.
+        </h2>
+        <p class="mt-5 max-w-2xl text-slate leading-relaxed">
+          Wir haben es uns zur Aufgabe gemacht, Eigentümer gerade in schwierigen
+          Situationen so zu unterstützen, dass am Ende eine tragfähige Lösung
+          steht. Keine Preisversprechen, keine Drucksituationen, keine leeren
+          Formulierungen.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <CTABand
+    eyebrow="Vertraulich sprechen"
+    title="Ein unverbindliches Gespräch — ohne Verpflichtung."
+    text="Wir hören zu, ordnen ein und zeigen realistische Optionen auf. Auf Wunsch bleibt das Gespräch vollständig vertraulich."
+    ctaLabel="Termin vereinbaren"
+    ctaHref="/kontakt/"
+  />
+</Layout>

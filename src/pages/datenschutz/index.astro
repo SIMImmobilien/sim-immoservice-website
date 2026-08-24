@@ -1,0 +1,137 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { site } from "../../data/site";
+---
+
+<Layout title={`Datenschutz | ${site.name}`} description="Datenschutzerklärung." noindex>
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <h1 class="font-display text-4xl text-ink">Datenschutzerklärung</h1>
+
+    <div class="mt-8 space-y-8 text-sm leading-relaxed text-slate">
+      <div>
+        <h2 class="font-display text-xl text-ink">1. Verantwortlicher</h2>
+        <p class="mt-2">
+          {site.name}, vertreten durch {site.ownerFull}<br />
+          {site.street}, {site.zip} {site.city}<br />
+          E-Mail: {site.email} · Telefon: {site.phoneDisplay}
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl text-ink">2. Hosting</h2>
+        <p class="mt-2">
+          Diese Website wird bei einem externen Dienstleister gehostet
+          (Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA). Beim
+          Aufruf der Website werden automatisch Server-Logfiles (u. a.
+          IP-Adresse, Datum/Uhrzeit, aufgerufene Seite, Browsertyp)
+          verarbeitet, um den sicheren und stabilen Betrieb der Website zu
+          gewährleisten (Art. 6 Abs. 1 lit. f DSGVO). Die Logfiles werden nach
+          spätestens 30 Tagen gelöscht. Mit dem Anbieter besteht ein Vertrag
+          zur Auftragsverarbeitung nach Art. 28 DSGVO. Die Auslieferung dieser
+          Website erfolgt über Serverstandorte in der Europäischen Union.
+          Soweit dabei personenbezogene Daten in die USA übermittelt werden,
+          stützt sich die Übermittlung auf einen Angemessenheitsbeschluss der
+          EU-Kommission (EU-US Data Privacy Framework, Art. 45 DSGVO) sowie
+          ergänzend auf Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO).
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl text-ink">3. Kontakt- und Anfrageformulare</h2>
+        <p class="mt-2">
+          Wenn Sie uns über ein Formular (z. B. Direktanfrage, Bewertungs- oder
+          Suchauftragsformular) kontaktieren, verarbeiten wir die von Ihnen
+          angegebenen Daten (u. a. Name, E-Mail, Telefon, Nachricht) zur
+          Bearbeitung Ihrer Anfrage sowie für den Fall von Anschlussfragen.
+          Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, sofern Ihre Anfrage
+          der Anbahnung oder Durchführung eines Vertrags dient, andernfalls
+          unser berechtigtes Interesse an der Bearbeitung Ihrer Anfrage
+          (Art. 6 Abs. 1 lit. f DSGVO).
+          Die Formulardaten werden ausschließlich über unseren eigenen Server
+          verarbeitet und verschlüsselt per E-Mail an unser Postfach bei der
+          IONOS SE, Elgendorfer Straße 57, 56410 Montabaur, zugestellt. Ein
+          externer Formulardienst wird nicht eingesetzt; eine Weitergabe an
+          sonstige Dritte erfolgt nicht.
+          Die Angabe der E-Mail-Adresse ist erforderlich, damit wir Ihre
+          Anfrage beantworten können; alle übrigen Angaben sind freiwillig.
+          Wir speichern Ihre Anfrage, bis der Zweck der Speicherung entfällt
+          (in der Regel nach abschließender Bearbeitung), und löschen sie
+          anschließend, sofern keine gesetzlichen Aufbewahrungsfristen
+          entgegenstehen (insbesondere §§ 147 AO, 257 HGB: sechs bzw. zehn
+          Jahre für steuer- und handelsrechtlich relevante Unterlagen).
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl text-ink">4. Schriftarten</h2>
+        <p class="mt-2">
+          Die auf dieser Website verwendeten Schriftarten werden lokal von
+          unserem Server ausgeliefert (Self-Hosting). Es besteht dabei keine
+          Verbindung zu Servern Dritter (z. B. Google Fonts), und es werden
+          keine personenbezogenen Daten an Dritte übertragen.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl text-ink">5. Google Maps</h2>
+        <p class="mt-2">
+          Auf einigen Seiten binden wir nach Ihrer ausdrücklichen Zustimmung
+          (Zwei-Klick-Lösung) Kartenmaterial von Google Maps ein, ein Dienst der
+          Google LLC bzw. Google Ireland Limited. Erst mit Klick auf „Google
+          Maps Karte anzeigen" wird eine Verbindung zu Google-Servern
+          hergestellt und Daten (u. a. Ihre IP-Adresse) übertragen
+          (Art. 6 Abs. 1 lit. a DSGVO). Weitere Informationen:
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="underline hover:text-ink"> Datenschutzerklärung von Google</a>.
+          Ihre Zustimmung können Sie jederzeit über die Cookie-Einstellungen
+          widerrufen.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl text-ink">6. Cookies</h2>
+        <p class="mt-2">
+          Wir verwenden technisch notwendige Cookies für den Betrieb der
+          Website sowie ein Local-Storage-Flag zur Speicherung Ihrer
+          Cookie-Entscheidung. Optionale Inhalte (Google Maps) werden erst
+          nach Ihrer Zustimmung geladen.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl text-ink">7. Widerrufsbelehrung zur Maklertätigkeit</h2>
+        <p class="mt-2">
+          Sofern Sie als Verbraucher:in im Sinne des § 13 BGB im Wege des
+          Fernabsatzes einen Maklervertrag mit uns schließen, steht Ihnen ein
+          gesetzliches Widerrufsrecht zu. Die vollständige Widerrufsbelehrung
+          inklusive Musterwiderrufsformular und Angaben zum Fristbeginn stellen
+          wir Ihnen im Rahmen des Vertragsschlusses in Textform zur Verfügung.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl text-ink">8. Ihre Rechte</h2>
+        <p class="mt-2">
+          Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung
+          (Art. 16 DSGVO), Löschung (Art. 17 DSGVO), Einschränkung der
+          Verarbeitung (Art. 18 DSGVO), Datenübertragbarkeit (Art. 20 DSGVO)
+          sowie das Recht, der Verarbeitung Ihrer personenbezogenen Daten aus
+          Gründen, die sich aus Ihrer besonderen Situation ergeben, zu
+          widersprechen (Art. 21 DSGVO). Eine erteilte Einwilligung können Sie
+          jederzeit mit Wirkung für die Zukunft widerrufen (Art. 7 Abs. 3
+          DSGVO); die Rechtmäßigkeit der bis zum Widerruf erfolgten
+          Verarbeitung bleibt davon unberührt.
+          Zur Ausübung Ihrer Rechte genügt eine formlose Nachricht an
+          {site.email}.
+          Zudem steht Ihnen ein Beschwerderecht bei einer
+          Datenschutz-Aufsichtsbehörde zu (Art. 77 DSGVO). Die für uns
+          zuständige Behörde ist der Landesbeauftragte für den Datenschutz und
+          die Informationsfreiheit Rheinland-Pfalz, Hintere Bleiche 34,
+          55116 Mainz.
+        </p>
+      </div>
+    </div>
+      <p class="mt-10 text-xs text-slate">
+      Stand dieser Datenschutzerklärung: August 2026.
+    </p>
+  </section>
+</Layout>

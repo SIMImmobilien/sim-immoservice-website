@@ -1,0 +1,63 @@
+---
+interface Props {
+  ort: string;
+  plz: string;
+  lat?: number | null;
+  lng?: number | null;
+}
+
+const { ort, plz, lat, lng } = Astro.props;
+const query = encodeURIComponent(`${plz} ${ort}`);
+const externalMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat && lng ? `${lat},${lng}` : query}`;
+const embedSrc = `https://www.google.com/maps?q=${lat && lng ? `${lat},${lng}` : query}&z=14&output=embed`;
+---
+
+<div class="overflow-hidden border border-line bg-white" data-maps-consent data-embed-src={embedSrc}>
+  <div class="maps-placeholder flex flex-col items-center gap-3 bg-paper p-8 text-center">
+    <p class="max-w-md text-sm text-slate">
+      Wenn Sie die Karte anzeigen, übertragen Sie Daten (u. a. Ihre IP-Adresse) an
+      Google LLC. Es gilt die <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="underline hover:text-ink">Datenschutzerklärung von Google</a>.
+    </p>
+    <button
+      type="button"
+      class="maps-consent-btn btn btn-sm btn-dark"
+    >
+      Google Maps Karte anzeigen
+    </button>
+    <a href={externalMapsUrl} target="_blank" rel="noopener noreferrer" class="text-xs text-slate underline hover:text-ink">
+      Alternativ: auf Google Maps ansehen
+    </a>
+  </div>
+  <div class="maps-frame-container hidden aspect-[16/9] w-full"></div>
+</div>
+
+<script>
+  const CONSENT_KEY = "cookie-consent";
+
+  document.querySelectorAll<HTMLElement>("[data-maps-consent]").forEach((wrapper) => {
+    const btn = wrapper.querySelector<HTMLButtonElement>(".maps-consent-btn");
+    const placeholder = wrapper.querySelector<HTMLElement>(".maps-placeholder");
+    const frameContainer = wrapper.querySelector<HTMLElement>(".maps-frame-container");
+    const embedSrc = wrapper.dataset.embedSrc;
+
+    function loadMap() {
+      if (!frameContainer || !embedSrc) return;
+      const iframe = document.createElement("iframe");
+      iframe.src = embedSrc;
+      iframe.loading = "lazy";
+      iframe.referrerPolicy = "no-referrer-when-downgrade";
+      iframe.className = "h-full w-full border-0";
+      iframe.title = "Standort auf Google Maps";
+      frameContainer.appendChild(iframe);
+      frameContainer.classList.remove("hidden");
+      placeholder?.classList.add("hidden");
+      localStorage.setItem("maps-consent", "granted");
+    }
+
+    btn?.addEventListener("click", loadMap);
+
+    if (localStorage.getItem("maps-consent") === "granted" && localStorage.getItem(CONSENT_KEY) === "all") {
+      loadMap();
+    }
+  });
+</script>

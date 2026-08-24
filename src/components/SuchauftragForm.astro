@@ -1,0 +1,112 @@
+---
+---
+
+<div class="border border-line bg-white p-6 sm:p-8">
+  <p class="eyebrow">Suchauftrag</p>
+  <h2 class="mt-1 font-display text-2xl text-ink">Wer suchet, der findet</h2>
+  <p class="mt-2 text-sm text-slate">
+    Gute Immobilien sind oft verkauft, bevor sie auf einem Portal erscheinen.
+    Hinterlegen Sie Ihr Suchprofil — wir informieren Sie, sobald ein passendes
+    Objekt in unsere Kartei aufgenommen wird, häufig bevor es öffentlich
+    inseriert wird.
+  </p>
+
+  <form id="suchauftrag-form" class="mt-6 grid gap-4 sm:grid-cols-2">
+    <input type="text" name="_honeypot" class="hidden" tabindex="-1" autocomplete="off" />
+
+    <div class="flex flex-col gap-1">
+      <label for="su-status" class="text-sm font-medium text-ink">Kaufen / Mieten*</label>
+      <select id="su-status" name="Kaufen/Mieten" required class="rounded-lg border border-line px-3 py-2 text-sm">
+        <option value="Kaufen">Kaufen</option>
+        <option value="Mieten">Mieten</option>
+      </select>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="su-kategorie" class="text-sm font-medium text-ink">Kategorie*</label>
+      <select id="su-kategorie" name="Kategorie" required class="rounded-lg border border-line px-3 py-2 text-sm">
+        <option value="Wohnimmobilie">Wohnimmobilie</option>
+        <option value="Gewerbeimmobilie">Gewerbeimmobilie</option>
+      </select>
+    </div>
+
+    <div class="flex flex-col gap-1 sm:col-span-2">
+      <label for="su-objektart" class="text-sm font-medium text-ink">Objektart*</label>
+      <select id="su-objektart" name="Objektart" required class="rounded-lg border border-line px-3 py-2 text-sm">
+        <optgroup label="Wohnimmobilie">
+          <option value="Wohnung">Wohnung</option>
+          <option value="Haus">Haus</option>
+          <option value="Grundstück">Grundstück</option>
+          <option value="Zinshaus / Renditeobjekt">Zinshaus / Renditeobjekt</option>
+          <option value="Sonstiges (Wohnen)">Sonstiges</option>
+        </optgroup>
+        <optgroup label="Gewerbeimmobilie">
+          <option value="Büro / Praxis">Büro / Praxis</option>
+          <option value="Halle / Lager / Produktion">Halle / Lager / Produktion</option>
+          <option value="Einzelhandel">Einzelhandel</option>
+          <option value="Gastgewerbe">Gastgewerbe</option>
+          <option value="Grundstück (Gewerbe)">Grundstück (Gewerbe)</option>
+          <option value="Sonstiges (Gewerbe)">Sonstiges</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="su-flaeche" class="text-sm font-medium text-ink">Fläche (m²)</label>
+      <input id="su-flaeche" name="Fläche" type="number" min="0" class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="su-zimmer" class="text-sm font-medium text-ink">Zimmeranzahl</label>
+      <input id="su-zimmer" name="Zimmeranzahl" type="number" min="0" class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="su-grundstueck" class="text-sm font-medium text-ink">Grundstück (m²)</label>
+      <input id="su-grundstueck" name="Grundstück" type="number" min="0" class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="su-ort" class="text-sm font-medium text-ink">Wunschort / -raum*</label>
+      <input id="su-ort" name="Wunschort" type="text" required placeholder="z. B. Montabaur, Umkreis 15 km" class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <div class="flex flex-col gap-1 sm:col-span-2">
+      <label for="su-preis" class="text-sm font-medium text-ink">Preisvorstellung*</label>
+      <input id="su-preis" name="Preisvorstellung" type="text" required placeholder="bis € …" class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="su-name" class="text-sm font-medium text-ink">Name*</label>
+      <input id="su-name" name="Name" type="text" required class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="su-email" class="text-sm font-medium text-ink">E-Mail*</label>
+      <input id="su-email" name="E-Mail" type="email" required class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <div class="flex flex-col gap-1 sm:col-span-2">
+      <label for="su-telefon" class="text-sm font-medium text-ink">Telefon</label>
+      <input id="su-telefon" name="Telefon" type="tel" class="rounded-lg border border-line px-3 py-2 text-sm" />
+    </div>
+
+    <label class="flex items-start gap-2 text-sm text-ink sm:col-span-2">
+      <input type="checkbox" name="Datenschutz akzeptiert" value="Ja" required class="mt-0.5 h-4 w-4 rounded border-line" />
+      <span>Ich habe die <a href="/datenschutz/" class="underline hover:text-brass">Datenschutzerklärung</a> zur Kenntnis genommen und bin mit der Verarbeitung meiner Daten zur Bearbeitung meiner Anfrage einverstanden.*</span>
+    </label>
+
+    <div data-form-status class="hidden sm:col-span-2" aria-live="polite"></div>
+
+    <div class="sm:col-span-2">
+      <button type="submit" class="btn btn-dark">
+        Suchauftrag senden
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+  import { wireForm } from "../lib/form-handler";
+  wireForm("suchauftrag-form", "Neuer Suchauftrag");
+</script>

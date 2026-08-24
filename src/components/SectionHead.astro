@@ -1,0 +1,21 @@
+---
+interface Props {
+  eyebrow: string;
+  tag?: "h1" | "h2";
+}
+
+const { eyebrow, tag = "h1" } = Astro.props;
+const Heading = tag;
+---
+
+<div class="grid gap-8 lg:grid-cols-[180px_1fr]">
+  <p class="eyebrow pt-3 lg:border-t lg:border-brass lg:pt-4">{eyebrow}</p>
+  <div>
+    <Heading class="max-w-3xl font-display text-4xl leading-[1.12] text-ink sm:text-5xl">
+      <slot name="title" />
+    </Heading>
+    <div class="mt-5 max-w-xl text-slate leading-relaxed">
+      <slot name="text" />
+    </div>
+  </div>
+</div>

@@ -1,0 +1,110 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProcessSteps from "../../components/ProcessSteps.astro";
+import BewertungForm from "../../components/BewertungForm.astro";
+import TrustBadges from "../../components/TrustBadges.astro";
+import FAQAccordion from "../../components/FAQAccordion.astro";
+import { site } from "../../data/site";
+
+const usps = [
+  {
+    title: "Lokale Marktkenntnis",
+    text: "Langjährige Erfahrung in Montabaur und dem Westerwald — wir kennen Lagen, Preise und Käuferverhalten aus erster Hand.",
+  },
+  {
+    title: "Käuferkartei & Gesuche",
+    text: "Bevor Ihre Immobilie öffentlich inseriert wird, prüfen wir sie gegen unsere laufenden Kundengesuche — oft entfällt die Portalschaltung ganz.",
+  },
+  {
+    title: "Rundum-Service",
+    text: "Von Exposé und Energieausweis über Besichtigungen bis zum Notartermin begleiten wir Sie persönlich und ohne Umwege.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "Was kostet die Bewertung meiner Immobilie?",
+    answer:
+      "Die Ersteinschätzung ist für Sie kostenlos und unverbindlich. Für gerichtsfeste Gutachten nach § 194 BauGB erstellen wir Ihnen gerne ein separates Angebot.",
+  },
+  {
+    question: "Wie lange dauert der Verkauf im Durchschnitt?",
+    answer:
+      "Von der Erstberatung bis zum Notartermin dauert es bei uns im Schnitt rund 52 Tage — abhängig von Objektart, Lage und Preisvorstellung.",
+  },
+  {
+    question: "Wer erstellt den Energieausweis?",
+    answer:
+      "Wir organisieren die Erstellung des gesetzlich vorgeschriebenen Energieausweises für Sie und übernehmen die Koordination mit zertifizierten Ausstellern.",
+  },
+  {
+    question: "Welche Unterlagen benötige ich für den Verkauf?",
+    answer:
+      "Unter anderem Grundbuchauszug, Energieausweis, Wohnflächenberechnung und ggf. Teilungserklärung. Wir erstellen Ihnen eine vollständige Checkliste im Erstgespräch.",
+  },
+  {
+    question: "Wie hoch ist die Maklercourtage?",
+    answer:
+      "Die Höhe der Courtage besprechen wir individuell im Erstgespräch und halten sie transparent im Maklervertrag fest.",
+  },
+];
+---
+
+<Layout
+  title={`Immobilie verkaufen in Montabaur & Westerwald | ${site.name}`}
+  description={`Kostenlose Immobilienbewertung und professionelle Vermarktung in Montabaur und dem Westerwald — persönlich begleitet von ${site.name}.`}
+>
+  <section class="relative">
+    <div class="relative h-[46vh] min-h-[380px] w-full overflow-hidden">
+      <img
+        src="/images/site/verkaufen-hero.svg"
+        alt="Wohnzimmer einer zum Verkauf stehenden Immobilie (Musterfoto)"
+        class="h-full w-full object-cover"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/30 to-ink/10"></div>
+      <div class="absolute inset-0 flex items-center">
+        <div class="mx-auto w-full max-w-6xl px-4 sm:px-6">
+          <p class="eyebrow text-brass">Verkauf &amp; Vermietung</p>
+          <h1 class="mt-3 max-w-2xl font-display text-4xl text-white sm:text-5xl">
+            Ihre Immobilie verdient den besten erzielbaren Preis
+          </h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <div class="grid gap-6 md:grid-cols-3">
+      {usps.map((u) => (
+        <div class="border border-line bg-white p-6">
+          <h3 class="font-display text-lg text-ink">{u.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-slate">{u.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-white py-16">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <p class="eyebrow">So läuft es ab</p>
+      <h2 class="mt-1 font-display text-3xl text-ink">Vier Schritte bis zum Notartermin</h2>
+      <div class="mt-8">
+        <ProcessSteps />
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <BewertungForm />
+  </section>
+
+  <TrustBadges />
+
+  <section class="mx-auto max-w-4xl px-4 py-16 sm:px-6">
+    <p class="eyebrow">Häufige Fragen</p>
+    <h2 class="mt-1 font-display text-3xl text-ink">Fragen &amp; Antworten zum Verkauf</h2>
+    <div class="mt-8">
+      <FAQAccordion items={faqItems} />
+    </div>
+  </section>
+</Layout>

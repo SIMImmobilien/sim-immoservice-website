@@ -1,0 +1,42 @@
+---
+const testimonials = [
+  {
+    quote:
+      "Sehr professionelle Begleitung vom ersten Gespräch bis zum Notartermin. Der Preis wurde realistisch eingeschätzt und innerhalb weniger Wochen erzielt.",
+    name: "K. Reinhardt",
+    context: "Verkäuferin, Montabaur",
+  },
+  {
+    quote:
+      "Wir haben unser Haus nie öffentlich inserieren müssen — passende Käufer standen bereits über die Kartei bereit.",
+    name: "M. & T. Ohlberg",
+    context: "Verkäufer, Wirges",
+  },
+  {
+    quote:
+      "Transparente Kommunikation und ehrliche Einschätzung, auch wenn es nicht das war, was wir hören wollten. Am Ende hat sich das ausgezahlt.",
+    name: "J. Falkner",
+    context: "Käufer, Hachenburg",
+  },
+];
+---
+
+<section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+  <p class="eyebrow">Was Kund:innen sagen</p>
+  <h2 class="mt-2 font-display text-3xl text-ink">Stimmen unserer Kundinnen und Kunden</h2>
+  <div class="mt-8 grid gap-6 md:grid-cols-3">
+    {testimonials.map((t) => (
+      <figure class="flex flex-col border border-line bg-white p-6">
+        <div class="flex gap-0.5 text-brass" aria-hidden="true">
+          {Array.from({ length: 5 }).map(() => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2Z"/></svg>
+          ))}
+        </div>
+        <blockquote class="mt-3 flex-1 text-sm leading-relaxed text-slate">„{t.quote}"</blockquote>
+        <figcaption class="mt-4 text-sm font-medium text-ink">
+          {t.name} <span class="font-normal text-slate">— {t.context}</span>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</section>

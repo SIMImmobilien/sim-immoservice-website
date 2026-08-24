@@ -1,0 +1,66 @@
+---
+import { verifySession, isLocked, COOKIE_NAME } from "../lib/ctrl";
+
+export const prerender = false;
+
+const token = Astro.cookies.get(COOKIE_NAME)?.value;
+const authed = verifySession(token);
+const locked = authed ? await isLocked() : false;
+const err = Astro.url.searchParams.get("e") === "1";
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Steuerung</title>
+    <style>
+      *{margin:0;padding:0;box-sizing:border-box}
+      body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#1c1913;color:#f0ece4;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:24px}
+      .card{width:100%;max-width:380px;background:#26221a;border:1px solid #3a3428;border-radius:14px;padding:36px 32px}
+      h1{font-size:15px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#9a917e;margin-bottom:22px;text-align:center}
+      input[type=password]{width:100%;padding:12px 14px;border-radius:9px;border:1px solid #453d2e;background:#1c1913;color:#f0ece4;font-size:15px;margin-bottom:14px;outline:none}
+      input[type=password]:focus{border-color:#b08d4f}
+      button{width:100%;padding:12px;border:none;border-radius:9px;background:#b08d4f;color:#1c1913;font-size:15px;font-weight:600;cursor:pointer}
+      button:hover{background:#c49d5e}
+      button.ghost{background:transparent;color:#9a917e;border:1px solid #453d2e;margin-top:10px;font-weight:500}
+      .status{text-align:center;font-size:14px;margin-bottom:20px;padding:10px;border-radius:9px}
+      .on{background:#3a2c1e;color:#e2b06a}
+      .off{background:#20301f;color:#93c78e}
+      .err{text-align:center;color:#d98a7e;font-size:13px;margin-bottom:12px}
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Wartungssteuerung</h1>
+      {
+        !authed && (
+          <form method="post" action="/api/status">
+            {err && <p class="err">Falsches Passwort.</p>}
+            <input type="password" name="pass" placeholder="" autofocus required />
+            <button>Anmelden</button>
+          </form>
+        )
+      }
+      {
+        authed && (
+          <>
+            <p class={`status ${locked ? "on" : "off"}`}>
+              {locked ? "Website gesperrt (503)" : "Website online"}
+            </p>
+            <form method="post" action="/api/status">
+              <input type="hidden" name="action" value={locked ? "unlock" : "lock"} />
+              <button>{locked ? "Website freigeben" : "Website sperren"}</button>
+            </form>
+            <form method="post" action="/api/status">
+              <input type="hidden" name="action" value="logout" />
+              <button class="ghost">Abmelden</button>
+            </form>
+          </>
+        )
+      }
+    </main>
+  </body>
+</html>
