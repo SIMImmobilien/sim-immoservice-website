@@ -50,11 +50,11 @@ export const POST: APIRoute = async ({ request }) => {
     return json(400, { error: "Bitte stimmen Sie der Datenschutzerklärung zu." });
   }
 
-  const apiKey = envVar(import.meta.env.RESEND_API_KEY, "RESEND_API_KEY");
+  const apiKey = (process.env.RESEND_API_KEY ?? "").trim();
   // Absenderadresse: muss zu einer in Resend verifizierten Domain gehören.
-  const from = envVar(import.meta.env.MAIL_FROM, "MAIL_FROM") || `Website <noreply@${new URL(site.siteUrl).hostname.replace(/^www\./, "")}>`;
-  const to = envVar(import.meta.env.MAIL_TO, "MAIL_TO") || site.email;
-  const debug = envVar(import.meta.env.MAIL_DEBUG, "MAIL_DEBUG") === "1";
+  const from = (process.env.MAIL_FROM ?? "").trim() || `Website <noreply@${new URL(site.siteUrl).hostname.replace(/^www\./, "")}>`;
+  const to = (process.env.MAIL_TO ?? "").trim() || site.email;
+  const debug = (process.env.MAIL_DEBUG ?? "").trim() === "1";
 
   if (!apiKey) {
     console.error("RESEND_API_KEY fehlt.");
