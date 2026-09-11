@@ -11,6 +11,11 @@ export default defineConfig({
   site: 'https://www.sim-immoservice.de',
   output: 'server',
   adapter,
+
+  security: {
+    checkOrigin: false,
+  },
+
   vite: {
     plugins: [tailwindcss()],
   },
