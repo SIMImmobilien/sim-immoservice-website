@@ -1,5 +1,4 @@
 import type { APIRoute } from "astro";
-import nodemailer from "nodemailer";
 import { site } from "../../data/site";
 
 export const prerender = false;
@@ -13,7 +12,7 @@ function clean(value: FormDataEntryValue | null): string {
 
 // Umgebungsvariablen zur Build-Zeit (import.meta.env) und zur Laufzeit
 // (process.env) auslesen und Leerzeichen/Zeilenumbrüche entfernen, die
-// beim Einfügen in Netlify leicht mitkopiert werden.
+// beim Einfügen in der Hosting-Oberfläche leicht mitkopiert werden.
 function envVar(buildValue: string | undefined, key: string): string {
   const raw = buildValue ?? (typeof process !== "undefined" ? process.env?.[key] : undefined);
   return (raw ?? "").trim();
@@ -51,25 +50,18 @@ export const POST: APIRoute = async ({ request }) => {
     return json(400, { error: "Bitte stimmen Sie der Datenschutzerklärung zu." });
   }
 
-  const host = envVar(import.meta.env.SMTP_HOST, "SMTP_HOST");
-  const user = envVar(import.meta.env.SMTP_USER, "SMTP_USER");
-  const pass = envVar(import.meta.env.SMTP_PASS, "SMTP_PASS");
+  const apiKey = envVar(import.meta.env.RESEND_API_KEY, "RESEND_API_KEY");
+  // Absenderadresse: muss zu einer in Resend verifizierten Domain gehören.
+  const from = envVar(import.meta.env.MAIL_FROM, "MAIL_FROM") || `Website <noreply@${new URL(site.siteUrl).hostname.replace(/^www\./, "")}>`;
   const to = envVar(import.meta.env.MAIL_TO, "MAIL_TO") || site.email;
-  const portValue = envVar(import.meta.env.SMTP_PORT, "SMTP_PORT");
-  const secureValue = envVar(import.meta.env.SMTP_SECURE, "SMTP_SECURE");
-  const debug = envVar(import.meta.env.SMTP_DEBUG, "SMTP_DEBUG") === "1";
+  const debug = envVar(import.meta.env.MAIL_DEBUG, "MAIL_DEBUG") === "1";
 
-  if (!host || !user || !pass) {
-    console.error("SMTP-Zugangsdaten fehlen (SMTP_HOST / SMTP_USER / SMTP_PASS).");
+  if (!apiKey) {
+    console.error("RESEND_API_KEY fehlt.");
     return json(503, {
       error: `Das Formular ist derzeit nicht verfügbar. Bitte schreiben Sie uns an ${site.email} oder rufen Sie an: ${site.phoneDisplay}.`,
     });
   }
-
-  const port = Number(portValue) || 465;
-  // secure=true nur für Port 465 (SMTPS). Für 587 (STARTTLS) secure=false,
-  // dabei die TLS-Aushandlung erzwingen.
-  const secure = secureValue ? secureValue !== "false" : port === 465;
 
   const subject = clean(data.get("_subject")) || "Neue Anfrage über die Website";
   const zeilen: string[] = [];
@@ -82,38 +74,33 @@ export const POST: APIRoute = async ({ request }) => {
   zeilen.push(`Eingegangen am ${new Date().toLocaleString("de-DE", { timeZone: "Europe/Berlin" })}`);
 
   try {
-    const transport = nodemailer.createTransport({
-      host,
-      port,
-      secure,
-      requireTLS: !secure,
-      auth: { user, pass },
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from,
+        to: [to],
+        reply_to: email,
+        subject,
+        text: zeilen.join("\n"),
+      }),
     });
 
-    await transport.sendMail({
-      from: `"${site.name} Website" <${user}>`,
-      to,
-      replyTo: email,
-      subject,
-      text: zeilen.join("\n"),
-    });
-  } catch (err: unknown) {
-    const e = err as { code?: string; responseCode?: number; command?: string; response?: string; message?: string };
-    console.error("SMTP-Versand fehlgeschlagen:", {
-      code: e?.code,
-      responseCode: e?.responseCode,
-      command: e?.command,
-      response: e?.response,
-      message: e?.message,
-    });
-    // Diagnosemodus: nur wenn SMTP_DEBUG=1 gesetzt ist, wird die konkrete
-    // Server-Antwort zurückgegeben, damit die Fehlerursache ohne Log-Zugriff
-    // sichtbar wird. Nach der Fehlersuche SMTP_DEBUG wieder entfernen.
-    const detail = debug
-      ? ` [${e?.responseCode ?? e?.code ?? "?"}] ${e?.response ?? e?.message ?? ""}`.trim()
-      : "";
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      console.error("Resend-Versand fehlgeschlagen:", res.status, body);
+      const detail = debug ? ` [${res.status}] ${body}`.trim() : "";
+      return json(502, {
+        error: `Die Nachricht konnte nicht versendet werden. Bitte schreiben Sie uns an ${site.email} oder rufen Sie an: ${site.phoneDisplay}.${detail ? " — Diagnose:" + detail : ""}`,
+      });
+    }
+  } catch (err) {
+    console.error("Resend-Versand fehlgeschlagen:", err);
     return json(502, {
-      error: `Die Nachricht konnte nicht versendet werden. Bitte schreiben Sie uns an ${site.email} oder rufen Sie an: ${site.phoneDisplay}.${detail ? " — Diagnose:" + detail : ""}`,
+      error: `Die Nachricht konnte nicht versendet werden. Bitte schreiben Sie uns an ${site.email} oder rufen Sie an: ${site.phoneDisplay}.`,
     });
   }
 
